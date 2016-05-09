@@ -3,36 +3,9 @@ import {
     JSON_HEADERS,
     checkStatus,
     parseJSON
-} from '../helpers/fetch';
+} from '../../helpers/fetch';
 
-export const REQUEST_ACCESS = 'REQUEST_ACCESS';
-
-export function requestAccess() {
-    return {
-        type: REQUEST_ACCESS,
-        requestedAt: Date.now()
-    };
-}
-
-export const RECEIVE_ACCESS = 'RECEIVE_ACCESS';
-
-export function receiveAccess(json) {
-    return {
-        type: RECEIVE_ACCESS,
-        access: Object.assign({}, json),
-        receivedAt: Date.now()
-    };
-}
-
-export const FAIL_RECEIVE_ACCESS = 'FAIL_RECEIVE_ACCESS';
-
-export function failReceiveAccess(json) {
-    return {
-        type: FAIL_RECEIVE_ACCESS,
-        error: Object.assign({}, json),
-        failedAt: Date.now()
-    };
-}
+import * as statics from './statics';
 
 let accessToken = '';
 export function fetchAccess(username, password) {
@@ -40,7 +13,7 @@ export function fetchAccess(username, password) {
     return function(dispatch) {
 
         // Start Login Process
-        dispatch(requestAccess());
+        dispatch(statics.requestAccess());
 
         // Actual login attempt
         return fetch('http://localhost:3000/v1/people/login', {
@@ -57,10 +30,10 @@ export function fetchAccess(username, password) {
             accessToken = json.id;
             //window.localStorage.setItem('session', JSON.stringify(json));
 
-            dispatch(receiveAccess(json));
+            dispatch(statics.receiveAccess(json));
         })
         .catch(err =>
-            dispatch(failReceiveAccess(err))
+            dispatch(statics.failReceiveAccess(err))
         );
     };
 }
@@ -87,41 +60,12 @@ export function fetchAccessIfNeeded(username, password) {
     };
 }
 
-export const REQUEST_USER = 'REQUEST_USER';
-
-export function requestUser() {
-    return {
-        type: REQUEST_USER,
-        requestedAt: Date.now()
-    };
-}
-
-export const RECEIVE_USER = 'RECEIVE_USER';
-
-export function receiveUser(json) {
-    return {
-        type: RECEIVE_USER,
-        receivedAt: Date.now(),
-        user: Object.assign({}, json)
-    };
-}
-
-export const FAIL_RECEIVE_USER = 'FAIL_RECEIVE_USER';
-
-export function failReceiveUser(json) {
-    return {
-        type: FAIL_RECEIVE_USER,
-        error: Object.assign({}, json),
-        failedAt: Date.now()
-    };
-}
-
 export function fetchCurrentUser(id) {
 
     return function(dispatch) {
 
         // Start Login Process
-        dispatch(requestUser());
+        dispatch(statics.requestUser());
 
         let headers = JSON_HEADERS;
         headers.Authorization = accessToken;
@@ -134,10 +78,10 @@ export function fetchCurrentUser(id) {
         .then(checkStatus)
         .then(parseJSON)
         .then(json =>
-            dispatch(receiveUser(json))
+            dispatch(statics.receiveUser(json))
         )
         .catch(err =>
-            dispatch(failReceiveUser(err))
+            dispatch(statics.failReceiveUser(err))
         );
     };
 }
