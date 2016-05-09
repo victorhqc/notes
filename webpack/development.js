@@ -4,6 +4,8 @@ var _ = require('lodash');
 
 const baseConfig = require('./base');
 
+var apiPath = path.join(__dirname, '/../api');
+
 var config = _.merge({
     entry: './src/index.js',
     cache: true,
@@ -12,6 +14,10 @@ var config = _.merge({
         new webpack.NoErrorsPlugin()
     ]
 }, baseConfig);
+
+config.resolve.alias =  {
+    api: path.join(apiPath + '/development.js')
+};
 
 config.module.loaders.push({
     test: /\.jsx?$/,

@@ -7,6 +7,9 @@ import {
 
 import * as statics from './statics';
 
+import { url } from 'api';
+const peopleUrl = url + 'people/';
+
 let accessToken = '';
 export function fetchAccess(username, password) {
 
@@ -16,7 +19,7 @@ export function fetchAccess(username, password) {
         dispatch(statics.requestAccess());
 
         // Actual login attempt
-        return fetch('http://localhost:3000/v1/people/login', {
+        return fetch( peopleUrl + '/login', {
             method: 'POST',
             headers: JSON_HEADERS,
             body: JSON.stringify({
@@ -71,7 +74,7 @@ export function fetchCurrentUser(id) {
         headers.Authorization = accessToken;
 
         // Actual Fetch for user
-        return fetch('http://localhost:3000/v1/people/' + id, {
+        return fetch( peopleUrl + id, {
             method: 'GET',
             headers: headers
         })
