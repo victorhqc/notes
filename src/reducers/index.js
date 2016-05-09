@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import * as users from './users';
+import * as people from './people';
 
 export let rootReducer = combineReducers({
-    session: users.session,
+    session: people.session,
     //notes: notes.notes,
     //filter: filters.filter,
     //search: filters.search
