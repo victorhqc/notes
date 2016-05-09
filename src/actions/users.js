@@ -34,6 +34,7 @@ export function failReceiveAccess(json) {
     };
 }
 
+let accessToken = '';
 export function fetchAccess(username, password) {
 
     return function(dispatch) {
@@ -52,11 +53,69 @@ export function fetchAccess(username, password) {
         })
         .then(checkStatus)
         .then(parseJSON)
-        .then(json =>
-            dispatch(receiveAccess(json))
-        )
+        .then(json => {
+            accessToken = json.id;
+            //window.localStorage.setItem('session', JSON.stringify(json));
+
+            dispatch(receiveAccess(json));
+        })
         .catch(err =>
             dispatch(failReceiveAccess(err))
+        );
+    };
+}
+
+export const REQUEST_USER = 'REQUEST_USER';
+
+export function requestUser() {
+    return {
+        type: REQUEST_USER,
+        requestedAt: Date.now()
+    };
+}
+
+export const RECEIVE_USER = 'RECEIVE_USER';
+
+export function receiveUser(json) {
+    return {
+        type: RECEIVE_USER,
+        receivedAt: Date.now(),
+        user: Object.assign({}, json)
+    };
+}
+
+export const FAIL_RECEIVE_USER = 'FAIL_RECEIVE_USER';
+
+export function failReceiveUser(json) {
+    return {
+        type: FAIL_RECEIVE_USER,
+        error: Object.assign({}, json),
+        failedAt: Date.now()
+    };
+}
+
+export function fetchCurrentUser(id) {
+
+    return function(dispatch) {
+
+        // Start Login Process
+        dispatch(requestUser());
+
+        let headers = JSON_HEADERS;
+        headers.Authorization = accessToken;
+
+        // Actual Fetch for user
+        return fetch('http://localhost:3000/v1/people/' + id, {
+            method: 'GET',
+            headers: headers
+        })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(json =>
+            dispatch(receiveUser(json))
+        )
+        .catch(err =>
+            dispatch(failReceiveUser(err))
         );
     };
 }

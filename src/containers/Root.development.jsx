@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import DevTools from './DevTools';
-import { fetchAccess, requestAccess } from '../actions';
+import { fetchAccess, fetchCurrentUser } from '../actions';
 
 export default class Root extends Component {
     componentDidMount() {
         const { store } = this.props;
 
         store.dispatch(fetchAccess('username', 'password'))
-        .then(() => {
-            console.log('store', store.getState())
-        })
+        .then(() =>  {
+            let state = store.getState(),
+                userId = state.session.token.userId;
+            return store.dispatch(fetchCurrentUser(userId));
+        });
     }
 
     render() {

@@ -1,7 +1,10 @@
 import {
     REQUEST_ACCESS,
     RECEIVE_ACCESS,
-    FAIL_RECEIVE_ACCESS
+    FAIL_RECEIVE_ACCESS,
+    REQUEST_USER,
+    RECEIVE_USER,
+    FAIL_RECEIVE_USER
 } from '../actions';
 
 export function session(state = {
@@ -10,9 +13,8 @@ export function session(state = {
     user: {}
 }, action = {}) {
 
-    console.log('action type', action.type);
-
     switch(action.type) {
+        case REQUEST_USER:
         case REQUEST_ACCESS:
             return Object.assign({}, state, {
                 isFetching: true,
@@ -26,6 +28,13 @@ export function session(state = {
                 error: null,
                 sessionSince: action.receivedAt
             });
+        case RECEIVE_USER:
+            return Object.assign({}, state, {
+                isFetching: false,
+                error: null,
+                user: action.user
+            });
+        case FAIL_RECEIVE_USER:
         case FAIL_RECEIVE_ACCESS:
             return Object.assign({}, state, {
                 isFetching: false,
