@@ -15,7 +15,7 @@ export function notes(state = {
                 isFetching: true
             });
         case RECEIVE_NOTES:
-            return Object.assing({}, state, {
+            return Object.assign({}, state, {
                 isFetching: false,
                 items: action.notes,
                 lastUpdated: actions.receivedAt

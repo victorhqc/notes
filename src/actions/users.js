@@ -19,7 +19,7 @@ export const RECEIVE_ACCESS = 'RECEIVE_ACCESS';
 export function receiveAccess(json) {
     return {
         type: RECEIVE_ACCESS,
-        user: json,
+        access: Object.assign({}, json),
         receivedAt: Date.now()
     };
 }
@@ -36,7 +36,7 @@ export function failReceiveAccess(json) {
 
 export function fetchAccess(username, password) {
 
-    return (dispatch) => {
+    return function(dispatch) {
 
         // Start Login Process
         dispatch(requestAccess());

@@ -6,8 +6,11 @@ import {
 
 export function session(state = {
     isFetching: false,
+    token: {},
     user: {}
 }, action = {}) {
+
+    console.log('action type', action.type);
 
     switch(action.type) {
         case REQUEST_ACCESS:
@@ -17,9 +20,9 @@ export function session(state = {
                 requestedAt: action.requestedAt
             });
         case RECEIVE_ACCESS:
-            return Object.assing({}, state, {
+            return Object.assign({}, state, {
                 isFetching: false,
-                user: action.user,
+                token: action.access,
                 error: null,
                 sessionSince: action.receivedAt
             });

@@ -1,6 +1,6 @@
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { rootReducer } from '../reducers';
 
 const loggerMiddleware = createLogger();
@@ -8,7 +8,7 @@ const loggerMiddleware = createLogger();
 // Middleware you want to use in production:
 const enhancer = applyMiddleware(
     thunkMiddleware,
-    createLogger
+    loggerMiddleware
 );
 
 export default function configureStore(initialState) {
