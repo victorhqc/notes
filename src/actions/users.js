@@ -65,6 +65,28 @@ export function fetchAccess(username, password) {
     };
 }
 
+export function shouldFetchSession(state) {
+    const session = state.session;
+    if( !session ) {
+        return true;
+    } else if( session.isFetching ) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+export function fetchAccessIfNeeded(username, password) {
+
+    return (dispatch, getState) => {
+        if( shouldFetchSession( getState() ) ) {
+            return dispatch( fetchAccess( username, password ) );
+        }else {
+            return Promise.resolve();
+        }
+    };
+}
+
 export const REQUEST_USER = 'REQUEST_USER';
 
 export function requestUser() {
