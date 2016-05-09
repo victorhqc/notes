@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-fetch'
+
 export const REQUEST_NOTES = 'REQUEST_NOTES';
 
 export function requestNotes() {
@@ -24,5 +26,12 @@ export function failReceiveNotes(json) {
         type: FAIL_RECEIVE_NOTES,
         error: Object.assign({}, json),
         failedAt: Date.now()
+    };
+}
+
+export function fetchNotes() {
+    return function (dispatch) {
+
+        dispatch(requestNotes);
     };
 }

@@ -5,6 +5,7 @@ var _ = require('lodash');
 const baseConfig = require('./base');
 
 var config = _.merge({
+    entry: './src/index.js',
     cache: true,
     plugins: [
         new webpack.HotModuleReplacementPlugin(),

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import * as filters from 'filters';
-import * as notes from 'notes';
+import * as users from './users';
 
 export let rootReducer = combineReducers({
-    notes: notes.notes,
-    filter: filters.filter,
-    search: filters.search
+    session: users.session,
+    //notes: notes.notes,
+    //filter: filters.filter,
+    //search: filters.search
 });

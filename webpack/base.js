@@ -12,6 +12,9 @@ module.exports = {
         inline: true,
         contentBase: './dist',
     },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
     module: {
         loaders: []
     }
