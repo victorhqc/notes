@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import DevTools from './DevTools';
 import { fetchAccessIfNeeded, fetchCurrentUser } from '../actions';
+
+import LoginVerifier from './LoginVerifier';
+import DevTools from './DevTools';
 
 export default class Root extends Component {
     componentDidMount() {
-        const { store } = this.props;
-
-        store.dispatch(fetchAccessIfNeeded('username', 'password'))
+        /*store.dispatch(fetchAccessIfNeeded('username', 'password'))
         .then(() =>  {
             let state = store.getState(),
                 userId = state.session.token.userId;
             return store.dispatch(fetchCurrentUser(userId));
-        });
+        });*/
     }
 
     render() {
@@ -20,7 +20,8 @@ export default class Root extends Component {
 
         return (
             <Provider store={store}>
-                <div>
+                <div className="container">
+                    <LoginVerifier />
                     <DevTools />
                 </div>
             </Provider>
