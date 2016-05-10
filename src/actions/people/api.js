@@ -43,9 +43,9 @@ export function fetchAccess(username, password) {
 
 export function shouldFetchSession(state) {
     const session = state.session;
-    if( !session ) {
+    if( !session.token || !session.token.isFetching ) {
         return true;
-    } else if( session.isFetching ) {
+    } else if( session.token.isFetching ) {
         return false;
     } else {
         return true;

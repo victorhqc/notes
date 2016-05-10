@@ -14,7 +14,7 @@ let Login = ({
                 <h1>Login</h1>
                 <form onSubmit={e => {
                         e.preventDefault();
-                        onRequestLogin(username, password);
+                        onRequestLogin(username.value, password.value);
                     }} className="form-horizontal">
                     <div className="form-group">
                         <label for="email" className="col-sm-4 control-label">Email</label>
