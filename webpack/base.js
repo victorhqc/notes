@@ -16,6 +16,19 @@ module.exports = {
         extensions: ['', '.js', '.jsx']
     },
     module: {
-        loaders: []
+        loaders: [
+            {
+                test: /\.css$/,
+                loader: 'style!css'
+            },
+            {
+                test: /\.scss/,
+                loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
+            },
+            {
+                test: /\.(png|jpg|gif|woff|woff2|eot|svg|ttf)/,
+                loader: 'url-loader?limit=8192'
+            }
+        ]
     }
 };

@@ -1,3 +1,7 @@
+require('roboto-fontface/css/roboto-fontface.css');
+require('material-icons/css/material-icons.css');
+require('bootstrap/dist/css/bootstrap.css');
+
 import React from 'react';
 import { render } from 'react-dom';
 import configureStore from './store/configureStore';
