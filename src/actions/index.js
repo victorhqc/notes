@@ -1,4 +1,4 @@
-export * from './people/statics';
-export * from './people/api';
+export * from './requests';
+export * from './people';
 export * from './filters';
 export * from './notes';

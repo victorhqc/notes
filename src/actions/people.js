@@ -1,29 +1,41 @@
 import fetch from 'isomorphic-fetch';
+
 import {
     JSON_HEADERS,
     checkStatus,
     parseJSON
-} from '../../helpers/fetch';
+} from '../helpers/fetch';
 
-import * as statics from './statics';
+import {
+    REQUEST,
+    request,
+    RECEIVE,
+    receive,
+    FAIL_RECEIVE,
+    failReceive,
+    shouldFetch
+} from './requests';
 
 import { url } from 'api';
-const peopleUrl = url + 'people/';
+
+export const PEOPLE_URL = url + 'people/';
+export const ACCESS = 'ACCESS';
+export const USER = 'USER';
 
 let accessToken = '';
-export function fetchAccess(username, password) {
+export function fetchAccess(email, password) {
 
     return function(dispatch) {
 
         // Start Login Process
-        dispatch(statics.requestAccess());
+        dispatch(request(ACCESS));
 
         // Actual login attempt
-        return fetch( peopleUrl + '/login', {
+        return fetch( PEOPLE_URL + 'login', {
             method: 'POST',
             headers: JSON_HEADERS,
             body: JSON.stringify({
-                username,
+                email,
                 password
             })
         })
@@ -33,29 +45,18 @@ export function fetchAccess(username, password) {
             accessToken = json.id;
             //window.localStorage.setItem('session', JSON.stringify(json));
 
-            dispatch(statics.receiveAccess(json));
+            dispatch(receive(ACCESS, json));
         })
         .catch(err =>
-            dispatch(statics.failReceiveAccess(err))
+            dispatch(failReceive(ACCESS, err))
         );
     };
-}
-
-export function shouldFetchSession(state) {
-    const session = state.session;
-    if( !session.token || !session.token.isFetching ) {
-        return true;
-    } else if( session.token.isFetching ) {
-        return false;
-    } else {
-        return true;
-    }
 }
 
 export function fetchAccessIfNeeded(username, password) {
 
     return (dispatch, getState) => {
-        if( shouldFetchSession( getState() ) ) {
+        if( shouldFetch( getState().session ) ) {
             return dispatch( fetchAccess( username, password ) );
         }else {
             return Promise.resolve();
@@ -68,7 +69,7 @@ export function fetchCurrentUser(id) {
     return function(dispatch) {
 
         // Start Login Process
-        dispatch(statics.requestUser());
+        dispatch(request(USER));
 
         let headers = JSON_HEADERS;
         headers.Authorization = accessToken;
@@ -81,10 +82,10 @@ export function fetchCurrentUser(id) {
         .then(checkStatus)
         .then(parseJSON)
         .then(json =>
-            dispatch(statics.receiveUser(json))
+            dispatch(receive(USER, json))
         )
         .catch(err =>
-            dispatch(statics.failReceiveUser(err))
+            dispatch(failReceive(USER, err))
         );
     };
 }

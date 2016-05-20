@@ -1,10 +1,7 @@
 import { combineReducers } from 'redux';
 
-import * as people from './people';
+import { session } from './request';
 
 export let rootReducer = combineReducers({
-    session: people.session,
-    //notes: notes.notes,
-    //filter: filters.filter,
-    //search: filters.search
+    session: session
 });
