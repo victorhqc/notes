@@ -16,13 +16,16 @@ import {
     shouldFetch
 } from './requests';
 
+import {
+    setToken
+} from './session';
+
 import { url } from 'api';
 
 export const PEOPLE_URL = url + 'people/';
 export const ACCESS = 'ACCESS';
 export const USER = 'USER';
 
-let accessToken = '';
 export function fetchAccess(email, password) {
 
     return function(dispatch) {
@@ -42,9 +45,7 @@ export function fetchAccess(email, password) {
         .then(checkStatus)
         .then(parseJSON)
         .then(json => {
-            accessToken = json.id;
-            //window.localStorage.setItem('session', JSON.stringify(json));
-
+            setToken(json);
             dispatch(receive(ACCESS, json));
         })
         .catch(err =>
