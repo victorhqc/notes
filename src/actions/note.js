@@ -1,93 +1,16 @@
-export const SET_NOTE_COLOR = 'SET_NOTE_COLOR';
+export const TOGGLE_CREATE_NOTE = 'TOGGLE_CREATE_NOTE';
 
-/*
- Setters
- */
-
-export function setNoteColor(id, color) {
+export function toggleCreateNote() {
     return {
-        type: SET_NOTE_COLOR,
-        id,
-        color
+        type: TOGGLE_CREATE_NOTE
     };
 }
 
-/*
- Action Starters
- */
+export const WRITE_NOTE = 'WRITE_NOTE';
 
-export const EDIT_NOTE = 'EDIT_NOTE';
-
-export function editNote(id) {
+export function writeNote(editor) {
     return {
-        type: EDIT_NOTE,
-        id
-    };
-}
-
-export const DELETE_NOTE = 'DELETE_NOTE';
-
-export function deleteNote(id) {
-    return {
-        type: DELETE_NOTE,
-        id
-    };
-}
-
-/*
- Requests
- */
-
-export const REQUEST_SAVE_NOTE = 'REQUEST_SAVE_NOTE';
-
-export function requestSaveNote(id) {
-    return {
-        type: REQUEST_SAVE_NOTE,
-        requestedAt: Date.now(),
-        id
-    };
-}
-
-export const REQUEST_EDIT_NOTE = 'REQUEST_EDIT_NOTE';
-
-export function requestEditNote(id) {
-    return {
-        type: REQUEST_EDIT_NOTE,
-        requestedAt: Date.now(),
-        id
-    };
-}
-
-export const REQUEST_DELETE_NOTE = 'REQUEST_DELETE_NOTE';
-
-export function requestDeleteNote(id) {
-    return {
-        type: REQUEST_DELETE_NOTE,
-        requestedAt: Date.now(),
-        id
-    };
-}
-
-/*
- Failed requests
- */
-export const FAIL_SAVE_NOTE = 'FAIL_SAVE_NOTE';
-
-export function failSaveNote(id, json) {
-    return {
-        type: FAIL_SAVE_NOTE,
-        error: Object.assign({}, json),
-        failedAt: Date.now(),
-        id
-    };
-}
-
-export const FAIL_DELETE_NOTE = 'FAIL_DELETE_NOTE';
-
-export function failDeleteNote(id) {
-    return {
-        type: FAIL_DELETE_NOTE,
-        failedAt: Date.now(),
-        id
+        type: WRITE_NOTE,
+        editor
     };
 }

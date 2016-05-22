@@ -1,31 +1,30 @@
 import {
-    REQUEST_NOTES,
-    RECEIVE_NOTES,
-    FAIL_RECEIVE_NOTES
+    TOGGLE_CREATE_NOTE,
+    WRITE_NOTE
 } from '../actions';
 
-export function notes(state = {
-    isFetching: false,
-    items: []
+export function newNote(state = {
+    creating: false,
+    editor: null
 }, action = {}) {
+    switch(action.type) {
+        case TOGGLE_CREATE_NOTE:
+            return Object.assign({}, state, {
+                creating: !state.creating,
+                editor: state.creating ? null : state.editor
+            });
+        case WRITE_NOTE:
+            return Object.assign({}, state, {
+                editor: action.editor
+            });
+        default:
+            return state;
+    }
+}
+
+export function notes(state = [], action = {}) {
 
     switch(action.type) {
-        case REQUEST_NOTES:
-            return Object.assign({}, state, {
-                isFetching: true
-            });
-        case RECEIVE_NOTES:
-            return Object.assign({}, state, {
-                isFetching: false,
-                items: action.notes,
-                lastUpdated: actions.receivedAt
-            });
-        case FAIL_RECEIVE_NOTES:
-            return Object.assign({}, state, {
-                isFetching: false,
-                error: action.error,
-                failedAt: action.failedAt
-            });
         default:
             return state;
     }

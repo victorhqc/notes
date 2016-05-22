@@ -2,6 +2,7 @@ import React from 'react';
 import { push } from 'react-router-redux';
 
 import MenuContainer from '../components/Menu/MenuContainer';
+import NewNoteContainer from '../components/Notes/NewNoteContainer';
 
 import {
     ACCESS,
@@ -72,6 +73,7 @@ export default class AppContainer extends React.Component {
         return (
             <div>
                 <MenuContainer />
+                <NewNoteContainer />
             </div>
         );
     }
