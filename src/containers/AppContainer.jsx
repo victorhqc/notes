@@ -11,14 +11,15 @@ export default class AppContainer extends React.Component {
     componentDidMount() {
         const { store } = this.context;
         const state = store.getState();
-        this.unsuscribe = store.subscribe(() => {
-            this.forceUpdate()
-        })
 
         const token = getToken();
         if( !token ) {
             return store.dispatch(push('/login'));
         }
+
+        this.unsuscribe = store.subscribe(() => {
+            this.forceUpdate();
+        });
 
         if(
             !state.session.hasOwnProperty(ACCESS) ||

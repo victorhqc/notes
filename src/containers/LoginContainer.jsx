@@ -35,9 +35,9 @@ export default LoginContainer;*/
 export default class LoginContainer extends Component {
     componentDidMount() {
         const { store } = this.context;
-        this.unsuscribe = store.subscribe(() => {
+        this.unsuscribe = store.subscribe(() =>
             this.forceUpdate()
-        })
+        );
 
         this.goToRoot(store);
     }
@@ -46,6 +46,7 @@ export default class LoginContainer extends Component {
         const token = getToken();
 
         if( token ) {
+            this.unsuscribe();
             return store.dispatch(push('/'));
         }
     }
@@ -53,10 +54,6 @@ export default class LoginContainer extends Component {
     componentDidUpdate() {
         const { store } = this.context;
         this.goToRoot(store);
-    }
-
-    componentWillUnMount() {
-        this.unsuscribe();
     }
 
     render() {
