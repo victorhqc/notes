@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { removeAccess } from '../../actions';
+import { removeAccess, toggleMenu } from '../../actions';
 import MenuComponent from './MenuComponent';
 
 const mapStateToProps = ( state ) => {
-    return {};
+    return {
+        visible: state.menu.visible
+    };
 };
 
 const mapDispatchToProps = ( dispatch ) => {
     return {
-        onLogout: () => dispatch( removeAccess() )
+        onLogout: () => dispatch( removeAccess() ),
+        toggleMenu: () => dispatch( toggleMenu() )
     };
 };
 
