@@ -4,6 +4,10 @@ export function setToken(token) {
     window.localStorage.setItem(ACCESS, JSON.stringify(token));
 }
 
+export function forgetToken() {
+    window.localStorage.clear();
+}
+
 export function getToken() {
     let token = window.localStorage.getItem(ACCESS);
     if( token ) { return JSON.parse(token); }

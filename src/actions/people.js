@@ -17,7 +17,8 @@ import {
 } from './requests';
 
 import {
-    setToken
+    setToken,
+    forgetToken
 } from './session';
 
 import { url } from 'api';
@@ -25,6 +26,16 @@ import { url } from 'api';
 export const PEOPLE_URL = url + 'people/';
 export const ACCESS = 'ACCESS';
 export const USER = 'USER';
+
+export const REMOVE_ACCESS = 'REMOVE_ACCESS';
+
+export function removeAccess() {
+    forgetToken();
+
+    return {
+        type: REMOVE_ACCESS
+    };
+}
 
 export function fetchAccess(email, password) {
 

@@ -1,7 +1,8 @@
 import {
     REQUEST,
     RECEIVE,
-    FAIL_RECEIVE
+    FAIL_RECEIVE,
+    REMOVE_ACCESS
 } from '../actions';
 
 const request = (state, action) => {
@@ -69,6 +70,10 @@ export function session(state = {}, action = {}) {
             return receive(state, action);
         case FAIL_RECEIVE:
             return failReceive(state, action);
+        case REMOVE_ACCESS:
+            return Object.assign({}, state, {
+                ACCESS: false
+            });
         default:
             return state;
     }
