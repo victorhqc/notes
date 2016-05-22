@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 
+// Material UI Dependencies
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import DevTools from './DevTools';
+
 
 export default class Root extends Component {
 
@@ -8,9 +13,11 @@ export default class Root extends Component {
         const props = this.props;
 
         return (
-            <div className="container">
+            <div>
+                <MuiThemeProvider muiTheme={getMuiTheme()}>
+                    { props.children }
+                </MuiThemeProvider>
                 <DevTools />
-                { props.children }
             </div>
         );
     }

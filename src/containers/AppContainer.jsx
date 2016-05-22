@@ -1,6 +1,8 @@
 import React from 'react';
 import { push } from 'react-router-redux';
 
+import MenuComponent from '../components/Menu/MenuComponent';
+
 import {
     ACCESS,
     getToken,
@@ -12,14 +14,15 @@ export default class AppContainer extends React.Component {
         const { store } = this.context;
         const state = store.getState();
 
-        const token = getToken();
-        if( !token ) {
-            return store.dispatch(push('/login'));
-        }
-
         this.unsuscribe = store.subscribe(() => {
             this.forceUpdate();
         });
+
+        const token = getToken();
+        if( !token ) {
+            this.unsuscribe();
+            return store.dispatch(push('/login'));
+        }
 
         if(
             !state.session.hasOwnProperty(ACCESS) ||
@@ -29,17 +32,15 @@ export default class AppContainer extends React.Component {
         }
     }
 
-    componentDidUpdate() {
-        console.log('AHA!!');
-    }
-
     componentWillUnMount() {
         this.unsuscribe();
     }
 
     render() {
         return (
-            <h1>Hello world!</h1>
+            <div>
+                <MenuComponent />
+            </div>
         );
     }
 }

@@ -1,50 +1,52 @@
 import React from 'react';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
-let Login = ({
-    onRequestLogin
-}) => {
-    let username = '',
-        password = '';
 
-    return (
-        <div className="row">
-            <div className="col-sm-offset-2 col-sm-4">
-                <h1>Login</h1>
-                <form onSubmit={e => {
-                        e.preventDefault();
-                        onRequestLogin(username.value, password.value);
-                    }} className="form-horizontal">
-                    <div className="form-group">
-                        <label for="email" className="col-sm-4 control-label">Email</label>
-                        <div className="col-sm-8">
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="email" name="email"
-                                placeholder="email"
-                                ref={node => username = node}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label for="password" className="col-sm-4 control-label">Password</label>
-                        <div className="col-sm-8">
-                            <input
-                                type="password"
-                                class="form-control"
-                                id="password" name="password"
-                                placeholder="Password"
-                                ref={node => password = node}
-                            />
-                        </div>
-                    </div>
-                    <button className="btn btn-success pull-right" type="submit">
-                        Login
-                    </button>
-                </form>
+export default class Login extends React.Component {
+
+    handleEmail(e){
+        this.setState({
+            email: e.target.value
+        });
+    }
+
+    handlePassword(e){
+        this.setState({
+            password: e.target.value
+        });
+    }
+
+    render() {
+        const { onRequestLogin } = this.props;
+
+        return (
+            <div className="row">
+                <div className="five columns"></div>
+                <div className="six columns">
+                    <h1>Login</h1>
+                    <form onSubmit={e => {
+                            e.preventDefault();
+                            onRequestLogin(this.state.email, this.state.password);
+                        }}>
+                        <TextField
+                            type="email"
+                            name="email"
+                            hintText="Email"
+                            floatingLabelText="Email"
+                            onChange={ this.handleEmail.bind(this) }
+                            /> <br />
+                        <TextField
+                            type="password"
+                            name="password"
+                            hintText="Password"
+                            floatingLabelText="Password"
+                            onChange={ this.handlePassword.bind(this) }
+                            /> <br />
+                        <RaisedButton label="Login" type="submit"/>
+                    </form>
+                </div>
             </div>
-        </div>
-    );
-};
-
-export default Login;
+        );
+    }
+}
