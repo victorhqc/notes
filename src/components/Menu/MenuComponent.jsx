@@ -8,9 +8,12 @@ import Drawer from 'material-ui/Drawer';
 
 export default function MenuComponent( {
     visible,
+    user,
     toggleMenu,
     onLogout
 } ) {
+    user = user || {}
+
     return (
         <div>
             <AppBar
@@ -37,7 +40,11 @@ export default function MenuComponent( {
                 docked={false}
                 onRequestChange={toggleMenu}
                 open={visible}>
-                <MenuItem>Victor Quiroz</MenuItem>
+                <MenuItem>
+                    {user.name}
+                    {' '}
+                    {user.last_name}
+                </MenuItem>
             </Drawer>
         </div>
     );

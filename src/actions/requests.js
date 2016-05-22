@@ -32,7 +32,7 @@ export function failReceive(name, json) {
 
 
 export function shouldFetch(state) {
-    if(!state.isFetching ) {
+    if(!state || !state.isFetching ) {
         return true;
     } else if( state.isFetching ) {
         return false;

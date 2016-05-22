@@ -5,8 +5,11 @@ import MenuContainer from '../components/Menu/MenuContainer';
 
 import {
     ACCESS,
+    USER,
     getToken,
-    receive
+    receive,
+    getUser,
+    fetchUserIfNeeded
 } from '../actions';
 
 export default class AppContainer extends React.Component {
@@ -18,7 +21,7 @@ export default class AppContainer extends React.Component {
             this.forceUpdate();
         });
 
-        const token = this.verifyAccess();
+        const token = this.verifyAccess(store);
 
         if(
             token && (
@@ -30,8 +33,7 @@ export default class AppContainer extends React.Component {
         }
     }
 
-    verifyAccess() {
-        const { store } = this.context;
+    verifyAccess(store) {
         const token = getToken();
         if( !token ) {
             this.unsuscribe();
@@ -41,8 +43,25 @@ export default class AppContainer extends React.Component {
         return token;
     }
 
+    getUser(store) {
+        const state = store.getState();
+        const user = getUser();
+        if( !user ) {
+            store.dispatch(
+                fetchUserIfNeeded()
+            );
+        } else if(
+            !state.session.hasOwnProperty(USER) ||
+            !state.session.USER.hasOwnProperty('id')
+        ) {
+            store.dispatch( receive( USER, user ) );
+        }
+    }
+
     componentWillUpdate() {
-        this.verifyAccess();
+        const { store } = this.context;
+        this.verifyAccess(store);
+        this.getUser(store);
     }
 
     componentWillUnMount() {

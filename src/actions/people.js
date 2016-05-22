@@ -18,7 +18,9 @@ import {
 
 import {
     setToken,
-    forgetToken
+    forgetToken,
+    getToken,
+    setUser
 } from './session';
 
 import { url } from 'api';
@@ -68,7 +70,7 @@ export function fetchAccess(email, password) {
 export function fetchAccessIfNeeded(username, password) {
 
     return (dispatch, getState) => {
-        if( shouldFetch( getState().session ) ) {
+        if( shouldFetch( getState().session.ACCESS ) ) {
             return dispatch( fetchAccess( username, password ) );
         }else {
             return Promise.resolve();
@@ -76,7 +78,20 @@ export function fetchAccessIfNeeded(username, password) {
     };
 }
 
-export function fetchCurrentUser(id) {
+export function fetchUserIfNeeded() {
+
+    return (dispatch, getState) => {
+        if( shouldFetch( getState().session.USER ) ) {
+            return dispatch( fetchCurrentUser() );
+        }else {
+            return Promise.resolve();
+        }
+    };
+}
+
+export function fetchCurrentUser() {
+    const token = getToken();
+    const id = token.userId;
 
     return function(dispatch) {
 
@@ -84,18 +99,19 @@ export function fetchCurrentUser(id) {
         dispatch(request(USER));
 
         let headers = JSON_HEADERS;
-        headers.Authorization = accessToken;
+        headers.Authorization = token.id;
 
         // Actual Fetch for user
-        return fetch( peopleUrl + id, {
+        return fetch( PEOPLE_URL + id, {
             method: 'GET',
             headers: headers
         })
         .then(checkStatus)
         .then(parseJSON)
-        .then(json =>
-            dispatch(receive(USER, json))
-        )
+        .then(json => {
+            setUser(json);
+            dispatch(receive(USER, json));
+        })
         .catch(err =>
             dispatch(failReceive(USER, err))
         );
