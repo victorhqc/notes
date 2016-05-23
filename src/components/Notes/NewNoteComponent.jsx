@@ -5,7 +5,7 @@ import EditNoteComponent from './EditNoteComponent';
 
 export default function NewNoteComponent( props ) {
 
-    const { creating, toggleCreate } = props;
+    const { creating, openCreate } = props;
 
     const style = {
         marginTop: 30,
@@ -23,7 +23,10 @@ export default function NewNoteComponent( props ) {
         <div className="container">
             <div className="row">
                 <div style={columnStyle} className="eight columns">
-                    <Paper style={style} zDepth={1} onTouchTap={toggleCreate}>
+                    <Paper
+                        style={style}
+                        zDepth={1}
+                        onTouchTap={openCreate}>
                         <EditNoteComponent {...props} />
                     </Paper>
                 </div>

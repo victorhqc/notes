@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { toggleCreateNote, writeNote } from '../../actions';
+import { openCreateNote, closeCreateNote, writeNote } from '../../actions';
 import NewNoteComponent from './NewNoteComponent';
 
 const mapStateToProps = ( state ) => {
 
     return {
         creating: state.newNote.creating,
-        editor: state.newNote.editor
+        text: state.newNote.text
     };
 };
 
 const mapDispatchToProps = ( dispatch ) => {
     return {
-        toggleCreate: () => dispatch( toggleCreateNote() ),
-        onWrite: (editor) => {
-
-            console.log('editor', editor);
-            dispatch( writeNote(editor) )
-        }
+        openCreate: () => dispatch( openCreateNote() ),
+        closeCreateNote: () => dispatch( closeCreateNote() ),
+        onWrite: (editor) => dispatch( writeNote(editor) )
     };
 };
 

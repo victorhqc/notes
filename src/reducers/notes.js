@@ -1,21 +1,27 @@
 import {
-    TOGGLE_CREATE_NOTE,
+    OPEN_CREATE_NOTE,
+    CLOSE_CREATE_NOTE,
     WRITE_NOTE
 } from '../actions';
 
 export function newNote(state = {
     creating: false,
-    editor: null
+    text: 'Write a note...'
 }, action = {}) {
     switch(action.type) {
-        case TOGGLE_CREATE_NOTE:
+        case OPEN_CREATE_NOTE:
             return Object.assign({}, state, {
-                creating: !state.creating,
-                editor: state.creating ? null : state.editor
+                creating: true,
+                text: ''
+            });
+        case CLOSE_CREATE_NOTE:
+            return Object.assign({}, state, {
+                creating: false,
+                text: 'Write a note...'
             });
         case WRITE_NOTE:
             return Object.assign({}, state, {
-                editor: action.editor
+                text: action.text
             });
         default:
             return state;
