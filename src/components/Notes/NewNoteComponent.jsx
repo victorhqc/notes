@@ -13,7 +13,8 @@ export default function NewNoteComponent( props ) {
         width: '100%',
         textAlign: 'center',
         display: 'inline-block',
-        padding: 15
+        padding: creating ? '15px 15px 50px 15px' : 15,
+        position: 'relative'
     };
 
     const columnStyle = {

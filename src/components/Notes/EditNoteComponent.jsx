@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Editor, EditorState, ContentState } from 'draft-js';
+import FlatButton from 'material-ui/FlatButton';
 
 import EditorComponent from './Editor/EditorComponent';
 
 export default class EditNoteComponent extends Component {
 
-    renderTitle(creating, title) {
-        if (!creating) { return null; }
+    renderTitle( creating, title ) {
+        if ( !creating ) { return null; }
 
         return (
             <div className="title-test">
@@ -18,31 +19,35 @@ export default class EditNoteComponent extends Component {
         );
     }
 
+    renderDoneButton( creating, closeCreate ) {
+        if ( !creating ) { return null; }
+
+        const style = {
+            position: 'absolute',
+            right: 5,
+            bottom: 5
+        };
+
+        return (
+            <div style={ style }>
+                <FlatButton label="Done" onClick={ closeCreate } />
+            </div>
+        );
+    }
+
     render() {
 
-        console.log('props', this.props);
-        const { title, text, creating } = this.props
+        const { title, text, creating, closeCreate } = this.props
 
         return (
             <div>
-                { this.renderTitle(creating, title) }
+                { this.renderTitle( creating, title ) }
                 <EditorComponent
                     placeholder='Write a note...'
                     text={text}
                     { ...this.props } />
+                { this.renderDoneButton( creating, closeCreate ) }
             </div>
         );
     }
 }
-
-/*export default function EditNoteComponent({
-    editor,
-    onWrite
-}) {
-    if( !editor ) {
-        onWrite( EditorState.createEmpty() );
-        return null;
-    }
-
-    return <Editor editorState={editor} onChange={ onWrite } />;
-}*/

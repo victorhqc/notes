@@ -20,7 +20,7 @@ const mapDispatchToProps = ( dispatch ) => {
 
             dispatch( openCreateNote() );
         },
-        closeCreateNote: () => dispatch( closeCreateNote() ),
+        closeCreate: () => dispatch( closeCreateNote() ),
         onWrite: (editor) => dispatch( writeNote(editor) )
     };
 };
