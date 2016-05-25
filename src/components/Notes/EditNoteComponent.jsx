@@ -1,47 +1,28 @@
 import React, { Component } from 'react';
 import { Editor, EditorState, ContentState } from 'draft-js';
 
+import EditorComponent from './Editor/EditorComponent';
+
 export default class EditNoteComponent extends Component {
-    constructor(props) {
-        super(props);
-
-        const { text } = this.props;
-        const content = ContentState.createFromText(text);
-
-        this.state = { editorState: EditorState.createWithContent( content ) };
-        this.onChange = (editorState) => this.setState({editorState});
-    }
-
-    shouldComponentUpdate(newProps, nextState) {
-        if(
-            newProps.text !== this.props.text ||
-            nextState !== this.state
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    updateEditor(text) {
-        const content = ContentState.createFromText(text);
-
-        window.setTimeout(
-            () => this.onChange(EditorState.createWithContent( content ) ),
-            10
-        );
-    }
-
-    componentWillUpdate( { text, creating } ) {
-        if( text !== this.props.text && creating ) {
-            this.updateEditor(text);
-        }
-    }
 
     render() {
-        return <Editor
-            editorState={ this.state.editorState }
-            onChange={ this.onChange } />;
+
+        const { title, text } = this.props
+
+        return (
+            <div>
+                <div className="title-test">
+                    <EditorComponent
+                        placeholder='Title'
+                        text={title}
+                        { ...this.props } />
+                </div>
+                <EditorComponent
+                    placeholder='Write a note...'
+                    text={text}
+                    { ...this.props } />
+            </div>
+        );
     }
 }
 

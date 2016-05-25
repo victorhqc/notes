@@ -8,6 +8,7 @@ const mapStateToProps = ( state ) => {
 
     return {
         creating: state.newNote.creating,
+        title: state.newNote.title,
         text: state.newNote.text
     };
 };

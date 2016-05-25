@@ -9,7 +9,7 @@ export default function NewNoteComponent( props ) {
 
     const style = {
         marginTop: 30,
-        height: creating ? 100 : 50,
+        minHeight: creating ? 100 : 50,
         width: '100%',
         textAlign: 'center',
         display: 'inline-block'

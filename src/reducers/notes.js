@@ -6,18 +6,21 @@ import {
 
 export function newNote(state = {
     creating: false,
-    text: 'Write a note...'
+    title: '',
+    text: ''
 }, action = {}) {
     switch(action.type) {
         case OPEN_CREATE_NOTE:
             return Object.assign({}, state, {
                 creating: true,
-                text: ''
+                title: ' ',
+                text: ' '
             });
         case CLOSE_CREATE_NOTE:
             return Object.assign({}, state, {
                 creating: false,
-                text: 'Write a note...'
+                title: '',
+                text: ''
             });
         case WRITE_NOTE:
             return Object.assign({}, state, {
