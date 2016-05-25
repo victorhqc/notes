@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Editor, EditorState, ContentState } from 'draft-js';
 
+require('draft-js/dist/Draft.css');
+
 export default class EditorComponent extends Component {
     constructor(props) {
         super(props);
@@ -35,6 +37,7 @@ export default class EditorComponent extends Component {
 
     shouldComponentUpdate(newProps, nextState) {
         if(
+            //( newProps.text == '' && newProps.creating === true ) ||
             newProps.text !== this.props.text ||
             nextState !== this.state
         ) {
@@ -45,8 +48,7 @@ export default class EditorComponent extends Component {
     }
 
     updateEditor(text) {
-        const content = ContentState.createFromText( text );
-        this.handleChange( EditorState.createWithContent( content ) );
+        this.handleChange( this.createWithText(text) );
     }
 
     componentWillUpdate( { text, creating } ) {

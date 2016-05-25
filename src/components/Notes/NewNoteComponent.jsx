@@ -12,7 +12,8 @@ export default function NewNoteComponent( props ) {
         minHeight: creating ? 100 : 50,
         width: '100%',
         textAlign: 'center',
-        display: 'inline-block'
+        display: 'inline-block',
+        padding: 15
     };
 
     const columnStyle = {
@@ -26,7 +27,7 @@ export default function NewNoteComponent( props ) {
                     <Paper
                         style={style}
                         zDepth={1}
-                        onTouchTap={openCreate}>
+                        onTouchTap={() => openCreate(creating) }>
                         <EditNoteComponent {...props} />
                     </Paper>
                 </div>

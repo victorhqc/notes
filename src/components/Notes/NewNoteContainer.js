@@ -15,7 +15,11 @@ const mapStateToProps = ( state ) => {
 
 const mapDispatchToProps = ( dispatch ) => {
     return {
-        openCreate: () => dispatch( openCreateNote() ),
+        openCreate: ( creating ) => {
+            if( creating ) { return; }
+
+            dispatch( openCreateNote() );
+        },
         closeCreateNote: () => dispatch( closeCreateNote() ),
         onWrite: (editor) => dispatch( writeNote(editor) )
     };

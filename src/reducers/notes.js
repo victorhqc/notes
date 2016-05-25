@@ -13,8 +13,8 @@ export function newNote(state = {
         case OPEN_CREATE_NOTE:
             return Object.assign({}, state, {
                 creating: true,
-                title: ' ',
-                text: ' '
+                title: '',
+                text: ''
             });
         case CLOSE_CREATE_NOTE:
             return Object.assign({}, state, {
