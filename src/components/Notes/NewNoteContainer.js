@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { openCreateNote, closeCreateNote, writeNote } from '../../actions';
+import { openCreateNote, closeCreateNote, addNote } from '../../actions';
 import NewNoteComponent from './NewNoteComponent';
 
 const mapStateToProps = ( state ) => {
@@ -21,7 +21,7 @@ const mapDispatchToProps = ( dispatch ) => {
             dispatch( openCreateNote() );
         },
         closeCreate: () => dispatch( closeCreateNote() ),
-        onWrite: (editor) => dispatch( writeNote(editor) )
+        addNote: ( note ) => dispatch( addNote(note) )
     };
 };
 

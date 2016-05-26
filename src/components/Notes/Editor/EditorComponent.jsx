@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Editor, EditorState, ContentState } from 'draft-js';
+import { Editor, EditorState, ContentState, convertToRaw } from 'draft-js';
+import { convertToHTML } from '../../../helpers/draft-js';
 
 require('draft-js/dist/Draft.css');
 
@@ -28,6 +29,11 @@ export default class EditorComponent extends Component {
     }
 
     handleChange(editorState) {
+        const { change } = this.props;
+        const raw = convertToRaw( editorState.getCurrentContent() );
+
+        change( convertToHTML(raw) );
+
         this.setState({ editorState });
     }
 

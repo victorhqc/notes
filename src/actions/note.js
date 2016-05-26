@@ -14,11 +14,13 @@ export function closeCreateNote() {
     };
 }
 
-export const WRITE_NOTE = 'WRITE_NOTE';
+export const ADD_NOTE = 'ADD_NOTE';
 
-export function writeNote(text) {
+export function addNote( note ) {
     return {
-        type: WRITE_NOTE,
-        text
+        type: ADD_NOTE,
+        title: note.title,
+        text: note.text,
+        color: note.color
     };
 }
