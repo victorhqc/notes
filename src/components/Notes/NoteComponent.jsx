@@ -16,12 +16,18 @@ const NoteComponent = ({ note }) => {
         fontSize: '2em'
     };
 
+    const textStyle = {
+        fontSize: (note.title) ? '1em' : '2em'
+    };
+
     return (
         <Paper style={style} zDepth={1}>
             <div style={titleStyle}>
                 { note.title }
             </div>
-            { note.text }
+            <div style={textStyle}>
+                { note.text }
+            </div>
         </Paper>
     );
 };

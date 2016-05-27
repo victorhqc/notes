@@ -2,27 +2,35 @@ import React from 'react';
 
 import NoteComponent from './NoteComponent';
 
-const renderNotes = (notes) => {
+const renderNotes = ( notes ) => {
 
-    return notes.map(( note, i ) =>
-        <div className="four columns" key={i}>
+    return notes.map(( note, i ) => {
+        let width = 240;
+
+        let style = {
+            position: 'absolute',
+            transiton: 'transform',
+            transform: `translate(${ (width * i ) + 10 + (10 * i) }px, 0)`,
+            width
+        };
+
+        return <div key={i} style={ style }>
             <NoteComponent note={note} />
         </div>
-    );
+    });
 
 };
 
 const NotesComponent = ({ notes }) => {
 
     const style = {
-        marginTop: 20
+        marginTop: 20,
+        position: 'relative'
     };
 
     return (
-        <div className="container" style={style}>
-            <div class="row">
-                { renderNotes(notes) }
-            </div>
+        <div style={ style }>
+            { renderNotes( notes ) }
         </div>
     );
 
