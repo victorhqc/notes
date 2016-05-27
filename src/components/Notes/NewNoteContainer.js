@@ -5,7 +5,6 @@ import { openCreateNote, closeCreateNote, addNote } from '../../actions';
 import NewNoteComponent from './NewNoteComponent';
 
 const mapStateToProps = ( state ) => {
-
     return {
         creating: state.newNote.creating,
         title: state.newNote.title,

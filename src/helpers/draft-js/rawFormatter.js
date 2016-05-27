@@ -4,7 +4,8 @@ function convertBlockToHTML( block ) {
 
     const text = block.text;
 
-    return `<p>${text}</p>`;
+    //return `<p>${text}</p>`;
+    return text;
 }
 
 /**

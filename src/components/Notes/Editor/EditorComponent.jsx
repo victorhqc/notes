@@ -43,7 +43,6 @@ export default class EditorComponent extends Component {
 
     shouldComponentUpdate(newProps, nextState) {
         if(
-            //( newProps.text == '' && newProps.creating === true ) ||
             newProps.text !== this.props.text ||
             nextState !== this.state
         ) {
