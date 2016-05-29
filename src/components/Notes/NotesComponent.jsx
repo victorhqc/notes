@@ -43,11 +43,36 @@ export default class NotesComponent extends Component {
         });
     }
 
-    calculateXOffset( index ) {
+    calculateXOffset( index, notes ) {
         // if the result is 0, its the first element of the row.
-        let mod = index % this.notesPerRow;
+        let mod = index % this.notesPerRow,
+            prevRow = this.getPreviousRow( index, notes );
 
-        return mod * this.noteWidth + (( mod + 1 ) * this.noteMargin);
+        if(! prevRow ) {
+            return mod * this.noteWidth + (( mod + 1 ) * this.noteMargin);
+        }
+
+        prevRow = prevRow.filter((note) => {
+            if(note.usedX) { return; }
+            return note;
+        });
+
+        if(prevRow && prevRow[0].sorted) {
+            let noteIndex = prevRow[0].index || 0;
+            this.state.notes[noteIndex].usedX = true;
+
+            let el = document.getElementById('note-container-' + noteIndex),
+                transform = el.style.transform,
+                offset = parseInt(transform.match(/([0-9]+)/g)[1]);
+
+            console.log('el', el);
+            console.log('el.style', el.style, parseInt(transform.match(/([0-9]+)/g)[1]));
+            console.log('offset', offset);
+
+            return offset;
+        }
+
+        return 15;
     }
 
     calculateYOffset( index, notes ) {
@@ -58,21 +83,13 @@ export default class NotesComponent extends Component {
         if( !prevRow ) { return  0; }
 
         prevRow = prevRow.filter((note) => {
-            if(note.used) { return; }
+            if(note.usedY) { return; }
             return note;
         });
 
-        console.log('index', index);
-        if(prevRow) {
+        if(prevRow && prevRow[0].sorted) {
             let noteIndex = prevRow[0].index || 0;
-
-            console.log('prevRow', prevRow);
-            console.log('prevRow[0]', prevRow[0]);
-            /*console.log('prevRow[0].index', prevRow[0].index);
-            console.log('noteIndex', noteIndex);
-            console.log('notes[index]', notes[noteIndex]);*/
-
-            this.state.notes[noteIndex].used = true;
+            this.state.notes[noteIndex].usedY = true;
             top = prevRow[0].top
         }
 
@@ -88,11 +105,12 @@ export default class NotesComponent extends Component {
     storeHeights() {
         if( this.stored ){ return; }
         this.stored = true;
-        let notes = [];
+        let notes = this.state.notes,
+            responseNotes = [];
 
-        this.state.notes.forEach(( note, i ) => {
+        notes.forEach(( note, i ) => {
             let el = document.getElementById('note-container-' + i),
-                prevRow = this.getPreviousRow( i, notes ),
+                prevRow = this.getPreviousRow( i, responseNotes ),
                 top = el.offsetHeight + this.noteMargin;
 
             if( prevRow ) {
@@ -101,28 +119,29 @@ export default class NotesComponent extends Component {
                     return note;
                 });
 
-                notes[prevRow[0].index].sorted = true;
-
+                responseNotes[prevRow[0].index].sorted = true;
                 top += prevRow[0].top + this.noteMargin;
             }
 
-            notes.push(
+            responseNotes.push(
                 Object.assign( {}, note, {
                     index: i,
                     height: el.offsetHeight,
-                    used: false,
+                    usedY: false,
+                    usedX: false,
                     sorted: false,
                     top
                 })
             );
         });
 
-        console.log('notes', notes);
-        this.setState({ notes });
+        console.log('responseNotes', responseNotes);
+        this.setState({ notes: responseNotes });
     }
 
     renderNotes( notes ) {
 
+        console.log('renderNotes', notes);
         return notes.map(( note, i ) => {
             // To get the "x" offset, the previous row must be obtained, and get the actual shortest (unused) note is.
             // After getting that, the x and y coordinates of the current note can be assigned, the shortest note used,
@@ -139,10 +158,12 @@ export default class NotesComponent extends Component {
             // The Note's array would be
             // [n00, n10, n20, n30, ..., n{x}0, n10, n11, n21, n31, ... n{x}1]
 
+            let transform = `translate3d(${this.calculateXOffset(i, notes)}px, ${this.calculateYOffset(i, notes)}px,0)`;
+
             let width = this.noteWidth,
                 style = {
                     transiton: 'transform',
-                    transform: `translate3d(${ this.calculateXOffset( i ) }px, ${ this.calculateYOffset( i, notes ) }px, 0)`,
+                    transform,
                     width
                 };
 
