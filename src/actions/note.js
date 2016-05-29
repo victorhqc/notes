@@ -16,9 +16,11 @@ export function closeCreateNote() {
 
 export const ADD_NOTE = 'ADD_NOTE';
 
+let lastId = 0;
 export function addNote( note ) {
     return {
         type: ADD_NOTE,
+        id: lastId ++,
         title: note.title,
         text: note.text,
         color: note.color
