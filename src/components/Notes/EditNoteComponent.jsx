@@ -17,6 +17,16 @@ export default class EditNoteComponent extends Component {
 
         this.title = '';
         this.text = '';
+
+        this.state = {
+            creating: props.creating
+        }
+    }
+
+    componentWillReceiveProps({ creating }) {
+        if(this.state.creating !== creating) {
+            this.setState({ creating });
+        }
     }
 
     handleTitleChange( title ) {
@@ -35,6 +45,9 @@ export default class EditNoteComponent extends Component {
             title: this.title,
             text: this.text
         });
+
+        this.text = '';
+        this.title = '';
 
         // Close the editor
         closeCreate();
@@ -72,7 +85,8 @@ export default class EditNoteComponent extends Component {
 
     render() {
 
-        const { title, text, creating } = this.props
+        const { title, text } = this.props;
+        const { creating } = this.state;
 
         return (
             <div>

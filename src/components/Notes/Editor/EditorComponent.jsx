@@ -41,14 +41,18 @@ export default class EditorComponent extends Component {
 
     }
 
-    shouldComponentUpdate(newProps, nextState) {
+    shouldComponentUpdate({ text, creating }, nextState) {
+
+        const currentContent = this.state.editorState.getCurrentContent();
+        const nextContent = nextState.editorState.getCurrentContent();
+
         if(
-            newProps.text !== this.props.text ||
-            nextState !== this.state
+            text !== this.props.text ||
+            creating !== this.props.creating ||
+            nextContent.getPlainText() !== currentContent.getPlainText()
         ) {
             return true;
         }
-
         return false;
     }
 
@@ -57,7 +61,11 @@ export default class EditorComponent extends Component {
     }
 
     componentWillUpdate( { text, creating } ) {
-        if( text !== this.props.text && creating ) {
+        if( !creating ) {
+            return this.setState( { editorState: this.createEmpty() } );
+        }
+
+        if( text !== this.props.text ) {
             this.updateEditor(text);
         }
     }
