@@ -125,39 +125,31 @@ export default class NotesComponent extends Component {
             // The Note's array would be
             // [n00, n10, n20, n30, ..., n{x}0, n10, n11, n21, n31, ... n{x}1]
 
-            let transform = `translate3d(${note.xOffset}px, ${note.yOffset}px,0)`;
-
             let width = this.noteWidth,
                 style = {
-                    transiton: 'transform',
-                    transform,
-                    width
+                    xOffset: spring(note.xOffset ? note.xOffset : 0),
+                    yOffset: spring(note.yOffset ? note.yOffset : 0)
+                },
+                parentStyle = {
+                    position: 'absolute'
                 };
 
-            /*let motionStyle = {
-                translateX: spring(),
-                translateY: spring()
-            };
-
             return (
-                <Motion key={ i } style={ style } id={"motion-note-" + i}>
-                    { ( { translateX, translateY } ) => {
-                        <NoteComponent note={note} style= {
-                            transition: 'transform',
-                            transform: `translate(${ (width * i ) + 10 + (10 * i) }px, 0)`,
-                            width
-                        }/>
-                    }}
-                </Motion>
-            );*/
-
-            return (
-                <div key={i} style={{
-                        position: 'absolute'
-                    }}>
-                    <div style={ style } id={'note-container-' + i}>
-                        <NoteComponent note={note} />
-                    </div>
+                <div key={i} style={ parentStyle }>
+                    <Motion style={ style }>
+                        {({ xOffset, yOffset }) => {
+                            let transform = `translate3d(${xOffset}px, ${yOffset}px,0)`;
+                            return (
+                                <div style={{
+                                    transiton: 'transform',
+                                    transform,
+                                    width
+                                }} id={'note-container-' + i}>
+                                    <NoteComponent note={note} />
+                                </div>
+                            );
+                        }}
+                    </Motion>
                 </div>
             );
         });
