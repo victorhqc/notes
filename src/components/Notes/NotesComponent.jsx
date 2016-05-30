@@ -16,9 +16,17 @@ export default class NotesComponent extends Component {
         this.noteMargin = 15;
         this.stored = false;
 
+        this.noteIds = this.registerIds(props.notes);
         this.state = {
             notes: props.notes
         };
+    }
+
+    registerIds(notes) {
+        if( !notes ) { return []; }
+        return notes.map((note) => {
+            return note.id
+        });
     }
 
     /**
@@ -43,59 +51,6 @@ export default class NotesComponent extends Component {
         });
     }
 
-    calculateXOffset( index, notes ) {
-        // if the result is 0, its the first element of the row.
-        let mod = index % this.notesPerRow,
-            prevRow = this.getPreviousRow( index, notes );
-
-        if(! prevRow ) {
-            return mod * this.noteWidth + (( mod + 1 ) * this.noteMargin);
-        }
-
-        prevRow = prevRow.filter((note) => {
-            if(note.usedX) { return; }
-            return note;
-        });
-
-        if(prevRow && prevRow[0].sorted) {
-            let noteIndex = prevRow[0].index || 0;
-            this.state.notes[noteIndex].usedX = true;
-
-            let el = document.getElementById('note-container-' + noteIndex),
-                transform = el.style.transform,
-                offset = parseInt(transform.match(/([0-9]+)/g)[1]);
-
-            console.log('el', el);
-            console.log('el.style', el.style, parseInt(transform.match(/([0-9]+)/g)[1]));
-            console.log('offset', offset);
-
-            return offset;
-        }
-
-        return 15;
-    }
-
-    calculateYOffset( index, notes ) {
-        let prevRow = this.getPreviousRow( index, notes ),
-            noteIndex = 0,
-            top = 0;
-
-        if( !prevRow ) { return  0; }
-
-        prevRow = prevRow.filter((note) => {
-            if(note.usedY) { return; }
-            return note;
-        });
-
-        if(prevRow && prevRow[0].sorted) {
-            let noteIndex = prevRow[0].index || 0;
-            this.state.notes[noteIndex].usedY = true;
-            top = prevRow[0].top
-        }
-
-        return top;
-    }
-
     /**
      * This method will store all the notes height in a single object. Each property of this object will be a row of the
      * note's grid.
@@ -105,43 +60,55 @@ export default class NotesComponent extends Component {
     storeHeights() {
         if( this.stored ){ return; }
         this.stored = true;
-        let notes = this.state.notes,
-            responseNotes = [];
+
+        const { notes } = this.state;
+
+        let responseNotes = [];
+        this.noteIds = this.registerIds(notes);
 
         notes.forEach(( note, i ) => {
             let el = document.getElementById('note-container-' + i),
                 prevRow = this.getPreviousRow( i, responseNotes ),
-                top = el.offsetHeight + this.noteMargin;
+                yOffset = 0,
+                mod = i % this.notesPerRow,
+                xOffset = mod * this.noteWidth + (( mod + 1 ) * this.noteMargin);
 
-            if( prevRow ) {
-                prevRow = prevRow.filter((note) => {
-                    if(note.sorted) { return; }
-                    return note;
+            if( prevRow) {
+
+                let prevNote;
+                prevRow.every((prev) => {
+                    if( this.noteIds.indexOf(prev.id) >= 0 ) {
+                        prevNote = prev;
+                        return false;
+                    }
+
+                    return true;
                 });
 
-                responseNotes[prevRow[0].index].sorted = true;
-                top += prevRow[0].top + this.noteMargin;
+                this.noteIds.splice(
+                    this.noteIds.indexOf(prevNote.id),
+                    1
+                );
+
+                xOffset = prevNote.xOffset;
+                yOffset += prevNote.height + prevNote.yOffset + this.noteMargin;
             }
 
             responseNotes.push(
                 Object.assign( {}, note, {
                     index: i,
                     height: el.offsetHeight,
-                    usedY: false,
-                    usedX: false,
-                    sorted: false,
-                    top
+                    yOffset,
+                    xOffset
                 })
             );
         });
 
-        console.log('responseNotes', responseNotes);
         this.setState({ notes: responseNotes });
     }
 
     renderNotes( notes ) {
 
-        console.log('renderNotes', notes);
         return notes.map(( note, i ) => {
             // To get the "x" offset, the previous row must be obtained, and get the actual shortest (unused) note is.
             // After getting that, the x and y coordinates of the current note can be assigned, the shortest note used,
@@ -158,7 +125,7 @@ export default class NotesComponent extends Component {
             // The Note's array would be
             // [n00, n10, n20, n30, ..., n{x}0, n10, n11, n21, n31, ... n{x}1]
 
-            let transform = `translate3d(${this.calculateXOffset(i, notes)}px, ${this.calculateYOffset(i, notes)}px,0)`;
+            let transform = `translate3d(${note.xOffset}px, ${note.yOffset}px,0)`;
 
             let width = this.noteWidth,
                 style = {
