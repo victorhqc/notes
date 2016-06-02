@@ -8,7 +8,7 @@ export default class EditorComponent extends Component {
     constructor(props) {
         super(props);
 
-        const { text } = this.props;
+        const { text } = props;
         let editorState = (!text || text === '') ? this.createEmpty() : this.createWithText( text );
 
         this.state = {
@@ -41,27 +41,13 @@ export default class EditorComponent extends Component {
 
     }
 
-    shouldComponentUpdate({ text, creating }, nextState) {
-
-        const currentContent = this.state.editorState.getCurrentContent();
-        const nextContent = nextState.editorState.getCurrentContent();
-
-        if(
-            text !== this.props.text ||
-            creating !== this.props.creating ||
-            nextContent.getPlainText() !== currentContent.getPlainText()
-        ) {
-            return true;
-        }
-        return false;
-    }
-
     updateEditor(text) {
         this.handleChange( this.createWithText(text) );
     }
 
     componentWillUpdate( { text, creating } ) {
-        if( !creating ) {
+
+        if( !creating && this.props.creating !== creating) {
             return this.setState( { editorState: this.createEmpty() } );
         }
 
