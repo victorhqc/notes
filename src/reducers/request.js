@@ -5,7 +5,7 @@ import {
     REMOVE_ACCESS
 } from '../actions';
 
-const request = (state, action) => {
+export function request(state, action) {
     switch(action.type) {
         case REQUEST:
             let obj = {};
@@ -20,9 +20,9 @@ const request = (state, action) => {
         default:
             return state;
     }
-};
+}
 
-const receive = (state, action) => {
+export function receive(state, action) {
     switch(action.type) {
         case RECEIVE:
 
@@ -41,9 +41,9 @@ const receive = (state, action) => {
         default:
             return state;
     }
-};
+}
 
-const failReceive = (state, action) => {
+export function failReceive(state, action) {
     switch(action.type) {
         case FAIL_RECEIVE:
             let obj = {
@@ -56,24 +56,6 @@ const failReceive = (state, action) => {
             response[action.name] = obj;
 
             return Object.assign({}, state, response);
-        default:
-            return state;
-    }
-};
-
-export function session(state = {}, action = {}) {
-
-    switch(action.type) {
-        case REQUEST:
-            return request(state, action);
-        case RECEIVE:
-            return receive(state, action);
-        case FAIL_RECEIVE:
-            return failReceive(state, action);
-        case REMOVE_ACCESS:
-            return Object.assign({}, state, {
-                ACCESS: false
-            });
         default:
             return state;
     }

@@ -1,3 +1,53 @@
+import fetch from 'isomorphic-fetch';
+
+import {
+    jsonHeaders,
+    checkStatus,
+    parseJSON
+} from '../helpers/fetch';
+
+import {
+    REQUEST,
+    request,
+    RECEIVE,
+    receive,
+    FAIL_RECEIVE,
+    failReceive,
+    shouldFetch
+} from './requests';
+
+import {
+    getToken
+} from './session';
+
+import { url } from 'api';
+
+export const NOTES_URL = url + 'notes/';
+export const NOTES = 'NOTES';
+
+export function fetchNotes() {
+    const token = getToken();
+
+    return function( dispatch ) {
+
+        dispatch(request(NOTES));
+
+        return fetch( NOTES_URL, {
+            method: 'GET',
+            headers: jsonHeaders(token.id)
+        })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(json => {
+            console.log('json', json);
+            dispatch(receive(NOTES, json));
+        })
+        .catch(err =>
+            dispatch(failReceive(NOTES, err))
+        );
+    };
+}
+
 export const OPEN_CREATE_NOTE = 'OPEN_CREATE_NOTE';
 
 export function openCreateNote() {

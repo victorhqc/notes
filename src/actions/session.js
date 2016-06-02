@@ -1,4 +1,28 @@
-import { ACCESS, USER } from './people';
+import fetch from 'isomorphic-fetch';
+
+import {
+    jsonHeaders,
+    checkStatus,
+    parseJSON
+} from '../helpers/fetch';
+
+import {
+    REQUEST,
+    RECEIVE,
+    FAIL_RECEIVE,
+    request,
+    receive,
+    failReceive,
+    shouldFetch
+} from './requests';
+
+import {
+    PEOPLE_URL
+} from './people';
+
+import { url } from 'api';
+
+export const ACCESS = 'ACCESS';
 
 export function setToken(token) {
     window.localStorage.setItem(ACCESS, JSON.stringify(token));
@@ -15,13 +39,51 @@ export function getToken() {
     return false;
 }
 
-export function setUser(json) {
-    window.localStorage.setItem(USER, JSON.stringify(json));
+export const REMOVE_ACCESS = 'REMOVE_ACCESS';
+
+export function removeAccess() {
+    forgetToken();
+
+    return {
+        type: REMOVE_ACCESS
+    };
 }
 
-export function getUser() {
-    let user = window.localStorage.getItem(USER);
-    if( user ) { return JSON.parse(user); }
+export function fetchAccess(email, password) {
 
-    return false;
+    return function(dispatch) {
+
+        // Start Login Process
+        dispatch(request(ACCESS));
+
+        // Actual login attempt
+        return fetch( PEOPLE_URL + 'login', {
+            method: 'POST',
+            headers: jsonHeaders(),
+            body: JSON.stringify({
+                email,
+                password
+            })
+        })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(json => {
+            setToken(json);
+            dispatch(receive(ACCESS, json));
+        })
+        .catch(err =>
+            dispatch(failReceive(ACCESS, err))
+        );
+    };
+}
+
+export function fetchAccessIfNeeded(username, password) {
+
+    return (dispatch, getState) => {
+        if( shouldFetch( getState().session.ACCESS ) ) {
+            return dispatch( fetchAccess( username, password ) );
+        }else {
+            return Promise.resolve();
+        }
+    };
 }

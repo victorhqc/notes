@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { fetchNotes } from '../../actions';
+
 import NotesComponent from './NotesComponent';
 
 const mapStateToProps = ( state ) => {
     return {
-        notes: state.notes
+        notes: state.notes.notes
     };
 };
 
 const mapDispatchToProps = ( dispatch ) => {
-    return {};
+    return {
+        fetchNotes: () => dispatch( fetchNotes() )
+    };
 };
 
 const NotesContainer = connect(

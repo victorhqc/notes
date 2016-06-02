@@ -1,81 +1,39 @@
 import fetch from 'isomorphic-fetch';
 
 import {
-    JSON_HEADERS,
+    jsonHeaders,
     checkStatus,
     parseJSON
 } from '../helpers/fetch';
 
 import {
     REQUEST,
-    request,
     RECEIVE,
-    receive,
     FAIL_RECEIVE,
+    request,
+    receive,
     failReceive,
     shouldFetch
 } from './requests';
 
 import {
-    setToken,
-    forgetToken,
     getToken,
-    setUser
 } from './session';
 
 import { url } from 'api';
 
 export const PEOPLE_URL = url + 'people/';
-export const ACCESS = 'ACCESS';
 export const USER = 'USER';
 
-export const REMOVE_ACCESS = 'REMOVE_ACCESS';
-
-export function removeAccess() {
-    forgetToken();
-
-    return {
-        type: REMOVE_ACCESS
-    };
+export function setUser(json) {
+    window.localStorage.setItem(USER, JSON.stringify(json));
 }
 
-export function fetchAccess(email, password) {
+export function getUser() {
+    let user = window.localStorage.getItem(USER);
+    if( user ) { return JSON.parse(user); }
 
-    return function(dispatch) {
-
-        // Start Login Process
-        dispatch(request(ACCESS));
-
-        // Actual login attempt
-        return fetch( PEOPLE_URL + 'login', {
-            method: 'POST',
-            headers: JSON_HEADERS,
-            body: JSON.stringify({
-                email,
-                password
-            })
-        })
-        .then(checkStatus)
-        .then(parseJSON)
-        .then(json => {
-            setToken(json);
-            dispatch(receive(ACCESS, json));
-        })
-        .catch(err =>
-            dispatch(failReceive(ACCESS, err))
-        );
-    };
-}
-
-export function fetchAccessIfNeeded(username, password) {
-
-    return (dispatch, getState) => {
-        if( shouldFetch( getState().session.ACCESS ) ) {
-            return dispatch( fetchAccess( username, password ) );
-        }else {
-            return Promise.resolve();
-        }
-    };
+    return false;
 }
 
 export function fetchUserIfNeeded() {
@@ -98,13 +56,10 @@ export function fetchCurrentUser() {
         // Start Login Process
         dispatch(request(USER));
 
-        let headers = JSON_HEADERS;
-        headers.Authorization = token.id;
-
         // Actual Fetch for user
         return fetch( PEOPLE_URL + id, {
             method: 'GET',
-            headers: headers
+            headers: jsonHeaders(token.id)
         })
         .then(checkStatus)
         .then(parseJSON)

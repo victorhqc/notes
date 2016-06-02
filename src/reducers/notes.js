@@ -41,7 +41,7 @@ export function newNote(state = {
     }
 }
 
-export function notes(state = [], action = {}) {
+function allNotes(state = [], action = {}) {
 
     switch(action.type) {
         case ADD_NOTE:
@@ -49,6 +49,20 @@ export function notes(state = [], action = {}) {
                 note( undefined, action ),
                 ...state
             ];
+        default:
+            return state;
+    }
+}
+
+export function notes(state = {
+    notes: []
+}, action = {}) {
+
+    switch(action.type) {
+        case ADD_NOTE:
+            return Object.assign({}, state, {
+                notes: allNotes(state, action)
+            });
         default:
             return state;
     }

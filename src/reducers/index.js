@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import { session } from './request';
+import { session } from './session';
 import { menu } from './menu';
 import { notes, newNote } from './notes';
 
