@@ -17,7 +17,10 @@ const NoteComponent = ({ note }) => {
     };
 
     const textStyle = {
-        fontSize: (note.title) ? '1em' : '2em'
+        fontSize: (
+            note.title ||
+            note.text.length >= 24
+        ) ? '1em' : '2em'
     };
 
     return (
