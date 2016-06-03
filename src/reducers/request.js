@@ -8,8 +8,7 @@ import {
 export function request(state, action) {
     switch(action.type) {
         case REQUEST:
-            let obj = {};
-            obj[action.name] = {
+            let obj = {
                 isFetching: true,
                 requestedAt: action.requestedAt,
                 error: null,
@@ -31,13 +30,10 @@ export function receive(state, action) {
                 receivedAt: action.receivedAt,
                 error: null,
                 failedAt: null
-            }, response = {};
+            };
 
             obj = Object.assign({}, obj, action.result);
-
-            response[action.name] = obj;
-
-            return Object.assign({}, state, response);
+            return Object.assign({}, state, obj);
         default:
             return state;
     }
@@ -51,11 +47,9 @@ export function failReceive(state, action) {
                 receivedAt: null,
                 error: action.error,
                 failedAt: action.failedAt
-            }, response = {};
+            };
 
-            response[action.name] = obj;
-
-            return Object.assign({}, state, response);
+            return Object.assign({}, state, obj);
         default:
             return state;
     }

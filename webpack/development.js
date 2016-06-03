@@ -9,6 +9,9 @@ var apiPath = path.join(__dirname, '/../api');
 var config = _.merge({
     entry: './src/index.js',
     cache: true,
+    devServer: {
+        hot: true
+    },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()

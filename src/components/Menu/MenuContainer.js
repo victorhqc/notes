@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { removeAccess, toggleMenu, USER } from '../../actions';
+import { removeAccess, toggleMenu } from '../../actions';
 import MenuComponent from './MenuComponent';
 
 const mapStateToProps = ( state ) => {
     return {
         visible: state.menu.visible,
-        user: state.session[USER]
+        user: state.user
     };
 };
 

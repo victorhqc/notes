@@ -39,7 +39,7 @@ export function getUser() {
 export function fetchUserIfNeeded() {
 
     return (dispatch, getState) => {
-        if( shouldFetch( getState().session.USER ) ) {
+        if( shouldFetch( getState().user ) ) {
             return dispatch( fetchCurrentUser() );
         }else {
             return Promise.resolve();
@@ -54,7 +54,7 @@ export function fetchCurrentUser() {
     return function(dispatch) {
 
         // Start Login Process
-        dispatch(request(USER));
+        dispatch(request('user'));
 
         // Actual Fetch for user
         return fetch( PEOPLE_URL + id, {
@@ -65,10 +65,10 @@ export function fetchCurrentUser() {
         .then(parseJSON)
         .then(json => {
             setUser(json);
-            dispatch(receive(USER, json));
+            dispatch(receive('user', json));
         })
         .catch(err =>
-            dispatch(failReceive(USER, err))
+            dispatch(failReceive('user', err))
         );
     };
 }

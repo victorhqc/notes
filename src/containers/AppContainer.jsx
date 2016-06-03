@@ -6,8 +6,7 @@ import NewNoteContainer from '../components/Notes/NewNoteContainer';
 import NotesContainer   from '../components/Notes/NotesContainer';
 
 import {
-    ACCESS,
-    USER,
+    setAccess,
     getToken,
     receive,
     getUser,
@@ -27,11 +26,11 @@ export default class AppContainer extends React.Component {
 
         if(
             token && (
-                !state.session.hasOwnProperty(ACCESS) ||
-                !state.session.ACCESS.hasOwnProperty('id')
+                !state.session.token ||
+                !state.session.token.hasOwnProperty('id')
             )
         ) {
-            store.dispatch( receive( ACCESS, token ) );
+            store.dispatch( setAccess( token ) );
         }
     }
 
@@ -53,10 +52,10 @@ export default class AppContainer extends React.Component {
                 fetchUserIfNeeded()
             );
         } else if(
-            !state.session.hasOwnProperty(USER) ||
-            !state.session.USER.hasOwnProperty('id')
+            !state.user ||
+            !state.user.hasOwnProperty('id')
         ) {
-            store.dispatch( receive( USER, user ) );
+            store.dispatch( receive( 'user', user ) );
         }
     }
 

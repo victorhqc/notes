@@ -41,6 +41,14 @@ export function getToken() {
 
 export const REMOVE_ACCESS = 'REMOVE_ACCESS';
 
+export function setAccess(token) {
+    return {
+        type: ACCESS,
+        name: 'session',
+        token
+    };
+}
+
 export function removeAccess() {
     forgetToken();
 
@@ -54,7 +62,7 @@ export function fetchAccess(email, password) {
     return function(dispatch) {
 
         // Start Login Process
-        dispatch(request(ACCESS));
+        dispatch(request('session'));
 
         // Actual login attempt
         return fetch( PEOPLE_URL + 'login', {
@@ -69,10 +77,10 @@ export function fetchAccess(email, password) {
         .then(parseJSON)
         .then(json => {
             setToken(json);
-            dispatch(receive(ACCESS, json));
+            dispatch(receive('session', json));
         })
         .catch(err =>
-            dispatch(failReceive(ACCESS, err))
+            dispatch(failReceive('session', err))
         );
     };
 }
@@ -80,7 +88,7 @@ export function fetchAccess(email, password) {
 export function fetchAccessIfNeeded(username, password) {
 
     return (dispatch, getState) => {
-        if( shouldFetch( getState().session.ACCESS ) ) {
+        if( shouldFetch( getState().session ) ) {
             return dispatch( fetchAccess( username, password ) );
         }else {
             return Promise.resolve();
