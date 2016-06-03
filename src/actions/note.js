@@ -20,17 +20,20 @@ import {
     getToken
 } from './session';
 
-import { url } from 'api';
+import {
+    PEOPLE_URL,
+    getUser
+} from './people';
 
-export const NOTES_URL = url + 'notes/';
+const userId = (getUser()) ? getUser().id : '';
+export const NOTES_URL = PEOPLE_URL + userId + '/notes/';
 export const NOTES = 'NOTES';
 
 export function fetchNotes() {
     const token = getToken();
 
     return function( dispatch ) {
-
-        dispatch(request(NOTES));
+        dispatch(request('notes'));
 
         return fetch( NOTES_URL, {
             method: 'GET',
@@ -39,11 +42,10 @@ export function fetchNotes() {
         .then(checkStatus)
         .then(parseJSON)
         .then(json => {
-            console.log('json', json);
-            dispatch(receive(NOTES, json));
+            dispatch(receive('notes', json));
         })
         .catch(err =>
-            dispatch(failReceive(NOTES, err))
+            dispatch(failReceive('notes', err))
         );
     };
 }

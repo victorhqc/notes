@@ -1,8 +1,17 @@
 import {
     OPEN_CREATE_NOTE,
     CLOSE_CREATE_NOTE,
-    ADD_NOTE
+    ADD_NOTE,
+    REQUEST,
+    RECEIVE,
+    FAIL_RECEIVE
 } from '../actions';
+
+import {
+    request,
+    receive,
+    failReceive
+} from './request';
 
 function note( state, action ) {
     switch ( action.type ) {
@@ -58,11 +67,24 @@ export function notes(state = {
     notes: []
 }, action = {}) {
 
+    if(
+        action.hasOwnProperty('name') &&
+        action.name !== 'notes'
+    ) {
+        return state;
+    }
+
     switch(action.type) {
         case ADD_NOTE:
             return Object.assign({}, state, {
                 notes: allNotes(state, action)
             });
+        case REQUEST:
+            return request(state, action);
+        case RECEIVE:
+            return receive(state, action);
+        case FAIL_RECEIVE:
+            return failReceive(state, action);
         default:
             return state;
     }
