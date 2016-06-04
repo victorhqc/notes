@@ -9,6 +9,7 @@ require('./styles/style.css');
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, IndexRoute, Route, browserHistory } from 'react-router';
+import throttle from 'lodash/throttle';
 
 // Redux dependencies
 import { Provider } from 'react-redux';
@@ -27,9 +28,9 @@ import { loadState, saveState } from './localStorage';
 
 const store = configureStore( loadState() );
 
-store.subscribe( () => {
+store.subscribe( throttle( () => {
     saveState( store.getState() );
-});
+}, 500 ) );
 
 injectTapEventPlugin();
 
