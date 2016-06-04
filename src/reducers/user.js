@@ -1,7 +1,8 @@
 import {
     REQUEST,
     RECEIVE,
-    FAIL_RECEIVE
+    FAIL_RECEIVE,
+    REMOVE_ACCESS
 } from '../actions';
 
 import {
@@ -11,7 +12,10 @@ import {
 } from './request';
 
 export function user(state = {}, action = {}) {
-    if( action.name !== 'user' ) { return state; }
+    if(
+        action.hasOwnProperty('name') &&
+        action.name !== 'user'
+    ) { return state; }
 
     switch(action.type) {
         case REQUEST:
@@ -20,6 +24,8 @@ export function user(state = {}, action = {}) {
             return receive(state, action);
         case FAIL_RECEIVE:
             return failReceive(state, action);
+        case REMOVE_ACCESS:
+            return {};
         default:
             return state;
     }

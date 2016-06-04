@@ -22,6 +22,14 @@ import {
 
 import { url } from 'api';
 
+export const REMOVE_ACCESS = 'REMOVE_ACCESS';
+
+export function removeAccess() {
+    return {
+        type: REMOVE_ACCESS
+    };
+}
+
 export function fetchAccess(email, password) {
 
     return function(dispatch) {
