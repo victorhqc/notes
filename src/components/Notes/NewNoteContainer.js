@@ -12,19 +12,22 @@ const mapStateToProps = ( state ) => ({
     text: state.newNote.text
 });
 
-const mapDispatchToProps = ( dispatch ) => {
-    return {
-        openCreate: ( creating ) => {
-            if( creating ) { return; }
+const mapDispatchToProps = ( dispatch ) => ({
+    openCreate( creating ) {
+        if( creating ) { return; }
 
-            dispatch( openCreateNote() );
-        },
-        closeCreate: () => dispatch( closeCreateNote() ),
-        addNote: ( userId, tokenId, note ) => dispatch(
-            createNote(userId, tokenId, note)
-        )
-    };
-};
+        dispatch( openCreateNote() );
+    },
+    closeCreate( creating ) {
+        if( !creating ) { return; }
+        dispatch( closeCreateNote() );
+    },
+    addNote( userId, tokenId, note ) {
+        dispatch(
+           createNote(userId, tokenId, note)
+        );
+    }
+});
 
 const NewNoteContainer = connect(
     mapStateToProps,

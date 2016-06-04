@@ -1,38 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 
 import EditNoteComponent from './EditNoteComponent';
 
-export default function NewNoteComponent( props ) {
+export default class NewNoteComponent extends Component {
+    constructor(props) {
+        super(props);
 
-    const { creating, openCreate } = props;
+        this.handleEscPress = this.handleEscPress.bind(this);
+    }
 
-    const style = {
-        marginTop: 30,
-        minHeight: creating ? 100 : 50,
-        width: '100%',
-        textAlign: 'center',
-        display: 'inline-block',
-        padding: creating ? '15px 15px 50px 15px' : 15,
-        position: 'relative'
-    };
+    handleEscPress({ keyCode }) {
 
-    const columnStyle = {
-        marginLeft: '17.33%'
-    };
+        // Esc Key
+        if ( keyCode === 27) {
+            const { closeCreate, creating } = this.props;
 
-    return (
-        <div className="container">
-            <div className="row">
-                <div style={columnStyle} className="eight columns">
-                    <Paper
-                        style={style}
-                        zDepth={1}
-                        onTouchTap={() => openCreate(creating) }>
-                        <EditNoteComponent {...props} />
-                    </Paper>
+            closeCreate(creating);
+        }
+    }
+
+    render() {
+        const { creating, openCreate } = this.props;
+
+        const style = {
+            marginTop: 30,
+            minHeight: creating ? 100 : 50,
+            width: '100%',
+            textAlign: 'center',
+            display: 'inline-block',
+            padding: creating ? '15px 15px 50px 15px' : 15,
+            position: 'relative'
+        };
+
+        const columnStyle = {
+            marginLeft: '17.33%'
+        };
+
+        return (
+            <div className="container">
+                <div className="row">
+                    <div style={columnStyle} className="eight columns">
+                        <Paper
+                            onKeyDown={ this.handleEscPress }
+                            style={style}
+                            zDepth={1}
+                            onTouchTap={() => openCreate(creating) }>
+                            <EditNoteComponent {...this.props} />
+                        </Paper>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }

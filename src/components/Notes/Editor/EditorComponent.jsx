@@ -16,7 +16,6 @@ export default class EditorComponent extends Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
-        this.close = this.close.bind(this);
     }
 
     createEmpty() {
@@ -37,10 +36,6 @@ export default class EditorComponent extends Component {
         this.setState({ editorState });
     }
 
-    close() {
-
-    }
-
     updateEditor(text) {
         this.handleChange( this.createWithText(text) );
     }
@@ -58,10 +53,10 @@ export default class EditorComponent extends Component {
 
     render() {
 
-        const { placeholder } = this.props;
+        const { placeholder, creating } = this.props;
 
         return <Editor
-            onEscape={ this.close }
+            readOnly={ !creating }
             placeholder={ placeholder }
             editorState={ this.state.editorState }
             onChange={ this.handleChange } />;
