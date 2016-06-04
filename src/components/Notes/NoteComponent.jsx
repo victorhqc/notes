@@ -1,38 +1,64 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 
-const NoteComponent = ({ note }) => {
+export default class NoteComponent extends Component {
 
-    const style = {
-        minHeight: 50,
-        width: '100%',
-        margin: 5,
-        textAlign: 'left',
-        display: 'inline-block',
-        padding: 10
-    };
+    constructor(props) {
+        super(props);
 
-    const titleStyle = {
-        fontSize: '2em'
-    };
+        this.handleMouseOver = this.handleMouseOver.bind(this);
+        this.handleMouseOut = this.handleMouseOut.bind(this);
 
-    const textStyle = {
-        fontSize: (
-            note.title ||
-            note.text.length >= 24
-        ) ? '1em' : '2em'
-    };
+        this.state = {
+            zDepth: 1
+        };
+    }
 
-    return (
-        <Paper style={style} zDepth={1}>
-            <div style={titleStyle}>
-                { note.title }
-            </div>
-            <div style={textStyle}>
-                { note.text }
-            </div>
-        </Paper>
-    );
-};
+    handleMouseOver() {
+        this.setState({ zDepth: 2 });
+    }
 
-export default NoteComponent;
+    handleMouseOut() {
+        this.setState({ zDepth: 1 });
+    }
+
+    render() {
+        const { note } = this.props;
+        const { zDepth } = this.state;
+
+        const style = {
+            minHeight: 50,
+            width: '100%',
+            margin: 5,
+            textAlign: 'left',
+            display: 'inline-block',
+            padding: 10
+        };
+
+        const titleStyle = {
+            fontSize: '2em'
+        };
+
+        const textStyle = {
+            fontSize: (
+                note.title ||
+                note.text.length >= 24
+            ) ? '1em' : '2em'
+        };
+
+        return (
+            <Paper
+                style={style}
+                zDepth={zDepth}
+                onMouseOver={ this.handleMouseOver }
+                onMouseOut={ this.handleMouseOut }>
+                <div style={titleStyle}>
+                    { note.title }
+                </div>
+                <div style={textStyle}>
+                    { note.text }
+                </div>
+            </Paper>
+        );
+    }
+}
