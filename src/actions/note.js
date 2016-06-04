@@ -35,14 +35,19 @@ export function fetchNotes() {
     return function( dispatch ) {
         dispatch(request('notes'));
 
-        return fetch( NOTES_URL, {
+        let filter = {
+            order: 'createdAt DESC'
+        };
+        let params = '?filter=' + encodeURIComponent(JSON.stringify( filter ) );
+
+        return fetch( NOTES_URL + params, {
             method: 'GET',
             headers: jsonHeaders(token.id)
         })
         .then(checkStatus)
         .then(parseJSON)
         .then(json => {
-            dispatch(receive('notes', json));
+            dispatch(receive('notes', { notes: json }));
         })
         .catch(err =>
             dispatch(failReceive('notes', err))
@@ -68,13 +73,29 @@ export function closeCreateNote() {
 
 export const ADD_NOTE = 'ADD_NOTE';
 
-let lastId = 0;
-export function addNote( note ) {
+function addNote( note ) {
     return {
         type: ADD_NOTE,
-        id: lastId ++,
-        title: note.title,
-        text: note.text,
-        color: note.color
+        note
+    };
+}
+
+let lastId = 0;
+export function createNote( note ) {
+    const token = getToken();
+
+    return function( dispatch ) {
+
+        return fetch( NOTES_URL, {
+            method: 'POST',
+            headers: jsonHeaders(token.id),
+            body: JSON.stringify(note)
+        })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(json => dispatch( addNote(json) ) )
+        .catch(err =>
+            console.log(err)
+        );
     };
 }

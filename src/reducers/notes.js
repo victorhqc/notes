@@ -16,12 +16,7 @@ import {
 function note( state, action ) {
     switch ( action.type ) {
         case ADD_NOTE:
-            return {
-                id: action.id,
-                title: action.title,
-                text: action.text,
-                color: action.color
-            };
+            return Object.assign({}, action.note);
         default:
             return state;
     }
@@ -77,7 +72,7 @@ export function notes(state = {
     switch(action.type) {
         case ADD_NOTE:
             return Object.assign({}, state, {
-                notes: allNotes(state, action)
+                notes: allNotes(state.notes, action)
             });
         case REQUEST:
             return request(state, action);
