@@ -6,31 +6,9 @@ import {
     ACCESS,
     fetchAccessIfNeeded,
     receive,
-    getToken
 } from '../actions';
 
 import Login from '../components/session/Login';
-
-/*const mapStateToProps = ( state ) => {
-    return {
-        ACCESS: state.session.ACCESS
-    };
-};
-
-const mapDispatchToProps = ( dispatch ) => {
-    return {
-        onRequestLogin: ( username, password ) => {
-            dispatch( fetchAccessIfNeeded( username, password ) );
-        }
-    }
-};
-
-const LoginContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Login);
-
-export default LoginContainer;*/
 
 export default class LoginContainer extends Component {
     componentDidMount() {
@@ -43,9 +21,9 @@ export default class LoginContainer extends Component {
     }
 
     goToRoot(store) {
-        const token = getToken();
+        const { session } = store.getState();
 
-        if( token ) {
+        if( session.hasOwnProperty('id') ) {
             this.unsuscribe();
             return store.dispatch(push('/'));
         }

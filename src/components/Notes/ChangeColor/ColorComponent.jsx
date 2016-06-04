@@ -5,34 +5,23 @@ export default class ColorComponent extends Component {
 
     constructor(props) {
         super(props);
-
-        this.handleMouseOver = this.handleMouseOver.bind(this);
-        this.handleMouseOut = this.handleMouseOut.bind(this);
-
-        this.state = {
-            active: false
-        };
-    }
-
-    handleMouseOver() {
-        this.setState({
-            active: true
-        });
-    }
-
-    handleMouseOut() {
-        this.setState({
-            active: false
-        });
     }
 
     render() {
         const { color, title, size } = this.props;
 
+        const style = {
+            backgroundColor: color,
+            boxShadow: '0 3px 10px -5px #333',
+            borderRadius: 15,
+            width: 30,
+            height: 30,
+            margin: 3
+        };
+
         return (
             <IconButton
-                mouseOver={ this.handleMouseOver }
-                mouseOut={ this.handleMouseOut }
+                style={style}
                 tooltip={ title } />
         );
     }

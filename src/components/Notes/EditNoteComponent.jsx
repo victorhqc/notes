@@ -39,10 +39,10 @@ export default class EditNoteComponent extends Component {
     }
 
     handleClick() {
-        const { closeCreate, addNote } = this.props;
+        const { userId, tokenId, closeCreate, addNote } = this.props;
 
         // Save the note
-        addNote({
+        addNote(userId, tokenId, {
             title: this.title,
             text: this.text
         });

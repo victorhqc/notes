@@ -23,7 +23,13 @@ import Root from './containers/Root';
 import LoginContainer from './containers/LoginContainer';
 import AppContainer from './containers/AppContainer';
 
-const store = configureStore();
+import { loadState, saveState } from './localStorage';
+
+const store = configureStore( loadState() );
+
+store.subscribe( () => {
+    saveState( store.getState() );
+});
 
 injectTapEventPlugin();
 

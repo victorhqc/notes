@@ -5,15 +5,17 @@ import { fetchNotes } from '../../actions';
 
 import NotesComponent from './NotesComponent';
 
-const mapStateToProps = ( state ) => {
-    return {
-        notes: state.notes.notes
-    };
-};
+const mapStateToProps = ( state ) => ({
+    userId: state.user.id,
+    tokenId: state.session.id,
+    notes: state.notes.notes
+});
 
 const mapDispatchToProps = ( dispatch ) => {
     return {
-        fetchNotes: () => dispatch( fetchNotes() )
+        fetchNotes: (userId, tokenId) => dispatch(
+            fetchNotes(userId, tokenId)
+        )
     };
 };
 

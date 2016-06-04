@@ -1,32 +1,35 @@
 import React from 'react';
+import Paper from 'material-ui/Paper';
 
 import ColorComponent from './ColorComponent';
 
 export default function() {
     const colors = [
-        { color: '#fff', title: 'None' },
-        { color: '#FF8A80', title: 'Red' },
-        { color: '#FFD180', title: 'Orange' },
-        { color: '#FFFF8D', title: 'Yellow' },
-        { color: '#CFD8DC', title: 'Gray' },
-        { color: '#80D8FF', title: 'Blue' },
-        { color: '#A7FFEB', title: 'Bluish Green'},
-        { color: '#CCFF90', title: 'Green'}
+        { color: '#fff', border: '#ccc', active: '#454545', title: 'None' },
+        { color: '#FF8A80', active: '#d66359', title: 'Red' },
+        { color: '#FFD180', active: '#FFD180', title: 'Orange' },
+        { color: '#FFFF8D', active: '#FFFF8D', title: 'Yellow' },
+        { color: '#CFD8DC', active: '#CFD8DC', title: 'Gray' },
+        { color: '#80D8FF', active: '#80D8FF', title: 'Blue' },
+        { color: '#A7FFEB', active: '#A7FFEB', title: 'Bluish Green'},
+        { color: '#CCFF90', active: '#CCFF90', title: 'Green'}
     ];
-
-    const padding = 10;
-    const size = 15;
+    const size = 36;
+    const width = ( ( colors.length / 2 ) * size );
+    const height = 2 * size;
 
     const style = {
         position: 'absolute',
-        top: 0,
-        left: 0,
-        width: ( ( colors.length / 2 ) * size ) + padding,
-        height: 2 * size + padding
+        top: height - 48,
+        left: 48,
+        width,
+        height
     };
 
     return (
-        <div style={ style }>
+        <Paper
+            style={style}
+            zDepth={1}>
             {colors.map( ( { color, title }, index ) =>
                 <ColorComponent
                     key= { index }
@@ -34,6 +37,6 @@ export default function() {
                     color={ color }
                     title={ title } />
             )}
-        </div>
+        </Paper>
     );
 }

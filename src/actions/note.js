@@ -17,20 +17,16 @@ import {
 } from './requests';
 
 import {
-    getToken
-} from './session';
-
-import {
-    PEOPLE_URL,
-    getUser
+    PEOPLE_URL
 } from './people';
 
-const userId = (getUser()) ? getUser().id : '';
-export const NOTES_URL = PEOPLE_URL + userId + '/notes/';
 export const NOTES = 'NOTES';
 
-export function fetchNotes() {
-    const token = getToken();
+function getUri(userId) {
+    return PEOPLE_URL + userId + '/notes/';
+}
+
+export function fetchNotes( userId, tokenId ) {
 
     return function( dispatch ) {
         dispatch(request('notes'));
@@ -40,9 +36,9 @@ export function fetchNotes() {
         };
         let params = '?filter=' + encodeURIComponent(JSON.stringify( filter ) );
 
-        return fetch( NOTES_URL + params, {
+        return fetch( getUri( userId ) + params, {
             method: 'GET',
-            headers: jsonHeaders(token.id)
+            headers: jsonHeaders( tokenId )
         })
         .then(checkStatus)
         .then(parseJSON)
@@ -91,14 +87,13 @@ function addNote( note ) {
 }
 
 let lastId = 0;
-export function createNote( note ) {
-    const token = getToken();
+export function createNote( userId, tokenId, note ) {
 
     return function( dispatch ) {
 
-        return fetch( NOTES_URL, {
+        return fetch( getUri( userId ), {
             method: 'POST',
-            headers: jsonHeaders(token.id),
+            headers: jsonHeaders(tokenId),
             body: JSON.stringify(note)
         })
         .then(checkStatus)

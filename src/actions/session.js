@@ -22,41 +22,6 @@ import {
 
 import { url } from 'api';
 
-export const ACCESS = 'ACCESS';
-
-export function setToken(token) {
-    window.localStorage.setItem(ACCESS, JSON.stringify(token));
-}
-
-export function forgetToken() {
-    window.localStorage.clear();
-}
-
-export function getToken() {
-    let token = window.localStorage.getItem(ACCESS);
-    if( token ) { return JSON.parse(token); }
-
-    return false;
-}
-
-export const REMOVE_ACCESS = 'REMOVE_ACCESS';
-
-export function setAccess(token) {
-    return {
-        type: ACCESS,
-        name: 'session',
-        token
-    };
-}
-
-export function removeAccess() {
-    forgetToken();
-
-    return {
-        type: REMOVE_ACCESS
-    };
-}
-
 export function fetchAccess(email, password) {
 
     return function(dispatch) {
@@ -75,10 +40,9 @@ export function fetchAccess(email, password) {
         })
         .then(checkStatus)
         .then(parseJSON)
-        .then(json => {
-            setToken(json);
-            dispatch(receive('session', json));
-        })
+        .then(json =>
+            dispatch(receive('session', json))
+        )
         .catch(err =>
             dispatch(failReceive('session', err))
         );

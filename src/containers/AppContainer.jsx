@@ -7,9 +7,7 @@ import NotesContainer   from '../components/Notes/NotesContainer';
 
 import {
     setAccess,
-    getToken,
     receive,
-    getUser,
     fetchUserIfNeeded
 } from '../actions';
 
@@ -22,47 +20,35 @@ export default class AppContainer extends React.Component {
             this.forceUpdate();
         });
 
-        const token = this.verifyAccess(store);
-
-        if(
-            token && (
-                !state.session.token ||
-                !state.session.token.hasOwnProperty('id')
-            )
-        ) {
-            store.dispatch( setAccess( token ) );
-        }
+        this.verifyAccess(state, store);
+        this.getUser(state, store);
     }
 
-    verifyAccess(store) {
-        const token = getToken();
-        if( !token ) {
+    verifyAccess(state, store) {
+        if( ! state.session.hasOwnProperty('id') ) {
             this.unsuscribe();
             store.dispatch(push('/login'));
         }
-
-        return token;
     }
 
-    getUser(store) {
-        const state = store.getState();
-        const user = getUser();
-        if( !user ) {
+    getUser(state, store) {
+
+        if(
+            state.session.hasOwnProperty('id') &&
+            !state.user.hasOwnProperty('id')
+        ) {
             store.dispatch(
                 fetchUserIfNeeded()
             );
-        } else if(
-            !state.user ||
-            !state.user.hasOwnProperty('id')
-        ) {
-            store.dispatch( receive( 'user', user ) );
         }
     }
 
     componentWillUpdate() {
         const { store } = this.context;
-        this.verifyAccess(store);
-        this.getUser(store);
+        const state = store.getState();
+
+        this.verifyAccess(state, store);
+        this.getUser(state, store);
     }
 
     componentWillUnMount() {

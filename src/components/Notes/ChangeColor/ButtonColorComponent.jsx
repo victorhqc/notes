@@ -8,8 +8,7 @@ export default class ButtonColorComponent extends Component {
     constructor( props ) {
         super( props );
 
-        this.handleMouseOver = this.handleMouseOver.bind(this);
-        this.handleMouseOut = this.handleMouseOut.bind(this);
+        this.handleClick = this.handleClick.bind(this);
         this.renderColorPalette = this.renderColorPalette.bind(this);
 
         this.state = {
@@ -18,17 +17,10 @@ export default class ButtonColorComponent extends Component {
         };
     }
 
-    handleMouseOver() {
+    handleClick() {
         this.setState({
-            active: true,
-            color: '#676767'
-        });
-    }
-
-    handleMouseOut() {
-        this.setState({
-            active: false,
-            color: '#9197A3'
+            active: !this.state.active,
+            color: this.state.active ? '#676767' : '#9197A3'
         });
     }
 
@@ -44,8 +36,7 @@ export default class ButtonColorComponent extends Component {
         return (
             <div>
                 <IconButton
-                    onMouseOver={ this.handleMouseOver }
-                    onMouseOut={ this.handleMouseOut }
+                    onClick={ this.handleClick }
                     tooltip="Change color">
                     <ColorLensIcon color={ color }/>
                 </IconButton>

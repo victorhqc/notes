@@ -12,7 +12,9 @@ import {
     failReceive
 } from './request';
 
-export function session(state = {}, action = {}) {
+export function session(state = {
+    token: false
+}, action = {}) {
     if( action.name !== 'session' ) { return state; }
 
     switch(action.type) {

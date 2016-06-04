@@ -16,40 +16,27 @@ import {
     shouldFetch
 } from './requests';
 
-import {
-    getToken,
-} from './session';
-
 import { url } from 'api';
 
 export const PEOPLE_URL = url + 'people/';
 export const USER = 'USER';
 
-export function setUser(json) {
-    window.localStorage.setItem(USER, JSON.stringify(json));
-}
-
-export function getUser() {
-    let user = window.localStorage.getItem(USER);
-    if( user ) { return JSON.parse(user); }
-
-    return false;
-}
-
 export function fetchUserIfNeeded() {
 
     return (dispatch, getState) => {
-        if( shouldFetch( getState().user ) ) {
-            return dispatch( fetchCurrentUser() );
+        const { user, session } = getState();
+
+        if( shouldFetch( user ) ) {
+            return dispatch(
+                fetchCurrentUser( session.userId, session.id )
+            );
         }else {
             return Promise.resolve();
         }
     };
 }
 
-export function fetchCurrentUser() {
-    const token = getToken();
-    const id = token.userId;
+export function fetchCurrentUser(userId, tokenId) {
 
     return function(dispatch) {
 
@@ -57,16 +44,15 @@ export function fetchCurrentUser() {
         dispatch(request('user'));
 
         // Actual Fetch for user
-        return fetch( PEOPLE_URL + id, {
+        return fetch( PEOPLE_URL + userId, {
             method: 'GET',
-            headers: jsonHeaders(token.id)
+            headers: jsonHeaders(tokenId)
         })
         .then(checkStatus)
         .then(parseJSON)
-        .then(json => {
-            setUser(json);
-            dispatch(receive('user', json));
-        })
+        .then(json =>
+            dispatch(receive('user', json))
+        )
         .catch(err =>
             dispatch(failReceive('user', err))
         );
