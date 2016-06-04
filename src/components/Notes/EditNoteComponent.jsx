@@ -3,6 +3,7 @@ import { Editor, EditorState, ContentState } from 'draft-js';
 import FlatButton from 'material-ui/FlatButton';
 
 import EditorComponent from './Editor/EditorComponent';
+import ButtonColor from './ChangeColor/ButtonColor';
 
 export default class EditNoteComponent extends Component {
 
@@ -83,6 +84,22 @@ export default class EditNoteComponent extends Component {
         );
     }
 
+    renderToolButtons( creating ) {
+        if( !creating ) { return null; }
+
+        const style = {
+            position: 'absolute',
+            left: 5,
+            bottom: 5
+        };
+
+        return (
+            <div style={ style }>
+                <ButtonColor />
+            </div>
+        );
+    }
+
     render() {
 
         const { title, text } = this.props;
@@ -96,6 +113,7 @@ export default class EditNoteComponent extends Component {
                     text={text}
                     change={this.handleTextChange}
                     { ...this.props } />
+                { this.renderToolButtons( creating ) }
                 { this.renderDoneButton( creating ) }
             </div>
         );

@@ -8,10 +8,10 @@ import {
 
 import {
     REQUEST,
-    request,
     RECEIVE,
-    receive,
     FAIL_RECEIVE,
+    request,
+    receive,
     failReceive,
     shouldFetch
 } from './requests';
@@ -68,6 +68,16 @@ export const CLOSE_CREATE_NOTE = 'CLOSE_CREATE_NOTE';
 export function closeCreateNote() {
     return {
         type: CLOSE_CREATE_NOTE
+    };
+}
+
+export const CHANGE_COLOR = 'CHANGE_COLOR';
+
+export function changeColor( color, note ) {
+    return {
+        type: CHANGE_COLOR,
+        color,
+        note
     };
 }
 
