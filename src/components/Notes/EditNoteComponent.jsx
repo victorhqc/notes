@@ -21,11 +21,11 @@ export default class EditNoteComponent extends Component {
 
         this.state = {
             creating: props.creating
-        }
+        };
     }
 
     componentWillReceiveProps({ creating }) {
-        if(this.state.creating !== creating) {
+        if( this.state.creating !== creating ) {
             this.setState({ creating });
         }
     }
@@ -39,7 +39,7 @@ export default class EditNoteComponent extends Component {
     }
 
     handleClick() {
-        const { userId, tokenId, closeCreate, addNote } = this.props;
+        const { userId, tokenId, closeCreate, addNote, creating } = this.props;
 
         // Save the note
         addNote(userId, tokenId, {
@@ -51,7 +51,7 @@ export default class EditNoteComponent extends Component {
         this.title = '';
 
         // Close the editor
-        closeCreate();
+        closeCreate( creating );
     }
 
     renderTitle( creating, title ) {

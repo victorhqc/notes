@@ -171,7 +171,10 @@ export default class NotesComponent extends Component {
     }
 
     componentWillReceiveProps({ notes }) {
-        this.setState({ notes })
+        if( notes !== this.props.notes ) {
+            this.stored = false;
+            this.setState({ notes })
+        }
     }
 
     componentWillUpdate({ notes }) {

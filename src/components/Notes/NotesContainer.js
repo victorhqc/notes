@@ -11,13 +11,11 @@ const mapStateToProps = ( state ) => ({
     notes: state.notes.notes
 });
 
-const mapDispatchToProps = ( dispatch ) => {
-    return {
-        fetchNotes: (userId, tokenId) => dispatch(
-            fetchNotes(userId, tokenId)
-        )
-    };
-};
+const mapDispatchToProps = ( dispatch ) => ({
+    fetchNotes(userId, tokenId) {
+        dispatch( fetchNotes(userId, tokenId) );
+    }
+});
 
 const NotesContainer = connect(
     mapStateToProps,
