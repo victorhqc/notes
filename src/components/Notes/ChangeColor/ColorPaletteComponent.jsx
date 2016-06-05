@@ -23,19 +23,20 @@ export default function() {
         top: height - 48,
         left: 48,
         width,
-        height
+        height,
+        zIndex: 99
     };
 
     return (
         <Paper
             style={style}
             zDepth={1}>
-            {colors.map( ( { color, title }, index ) =>
+            {colors.map( ( color, index ) =>
                 <ColorComponent
+                    index={ index }
                     key= { index }
                     size={ size }
-                    color={ color }
-                    title={ title } />
+                    { ...color } />
             )}
         </Paper>
     );

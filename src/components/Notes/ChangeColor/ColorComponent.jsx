@@ -8,15 +8,25 @@ export default class ColorComponent extends Component {
     }
 
     render() {
-        const { color, title, size } = this.props;
+        const {
+            color,
+            title,
+            size,
+            index,
+            border,
+            active
+        } = this.props;
+
+        let borderColor = border ? '2px solid ' + border : '2px solid ' + color;
 
         const style = {
+            border: borderColor,
             backgroundColor: color,
-            boxShadow: '0 3px 10px -5px #333',
             borderRadius: 15,
             width: 30,
             height: 30,
-            margin: 3
+            margin: 3,
+            zIndex: 99 - index
         };
 
         return (
