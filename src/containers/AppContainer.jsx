@@ -3,6 +3,7 @@ import { push } from 'react-router-redux';
 
 import NewNoteContainer from '../components/Notes/NewNoteContainer';
 import NotesContainer   from '../components/Notes/NotesContainer';
+import MenuContainer    from '../components/Menu/MenuContainer';
 
 import {
     setAccess,
@@ -57,6 +58,7 @@ export default class AppContainer extends React.Component {
     render() {
         return (
             <div>
+                <MenuContainer />
                 <NewNoteContainer />
                 <NotesContainer />
             </div>
