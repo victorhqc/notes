@@ -43,7 +43,7 @@ render(
         <Router history={history}>
             <Route path="/" component={ Root }>
                 <IndexRoute component={ AppContainer }></IndexRoute>
-                <Route path="login" component={LoginContainer}></Route>
+                <Route path="login" component={ LoginContainer }></Route>
             </Route>
         </Router>
     </Provider>,

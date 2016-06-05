@@ -1,7 +1,6 @@
 import React    from 'react';
 import { push } from 'react-router-redux';
 
-import MenuContainer    from '../components/Menu/MenuContainer';
 import NewNoteContainer from '../components/Notes/NewNoteContainer';
 import NotesContainer   from '../components/Notes/NotesContainer';
 
@@ -58,7 +57,6 @@ export default class AppContainer extends React.Component {
     render() {
         return (
             <div>
-                <MenuContainer />
                 <NewNoteContainer />
                 <NotesContainer />
             </div>
