@@ -24,7 +24,7 @@ export default function() {
         left: 48,
         width,
         height,
-        zIndex: 99
+        zIndex: 1000
     };
 
     return (

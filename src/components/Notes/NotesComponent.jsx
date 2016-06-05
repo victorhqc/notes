@@ -143,7 +143,8 @@ export default class NotesComponent extends Component {
                                 <div style={{
                                     transiton: 'transform',
                                     transform,
-                                    width
+                                    width,
+                                    zIndex: 999 - i
                                 }} id={'note-container-' + i}>
                                     <NoteComponent note={note} />
                                 </div>
