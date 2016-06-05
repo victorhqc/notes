@@ -48,3 +48,16 @@ This project is written with React and Redux (alongside other cool libraries)
 + Node >= 4
 + NPM
 + Nginx ( Or similar for production environments )
+
+## Features
+
+- [x] Login.
+- [x] Notes Grid (Similar to Google Keep).
+- [ ] Signup.
+- [ ] Notes CRUD.
+- [ ] Note Snapshots implementation (no more deleted notes by accident! :D).
+- [ ] Tags in Notes.
+- [ ] Search Notes.
+- [ ] Share Notes.
+- [ ] Implementing multiple Note types.
+- [ ] WebSockets for real time events and notifications.
