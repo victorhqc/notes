@@ -1,4 +1,4 @@
-# notes
+# Notes
 A Simple Note taking Application, with Snapshot support!
 
 ## Inspiration
@@ -26,8 +26,6 @@ After the backend is running, run the following command in the project's root pa
 npm i
 ```
 
-
-
 ## Running the project
 
 For develop, just run the project as following
@@ -40,6 +38,10 @@ MIT
 
 ## Author
 Victor Quiroz
+
+## Technical Stuff
+
+This project is written with React and Redux (alongside other cool libraries)
 
 ### Prerequisites
 
