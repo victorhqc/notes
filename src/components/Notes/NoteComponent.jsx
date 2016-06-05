@@ -27,6 +27,8 @@ export default class NoteComponent extends Component {
         const { zDepth } = this.state;
 
         const style = {
+            fontFamily: 'Roboto Slab',
+            fontWeight: 300,
             minHeight: 50,
             width: '100%',
             margin: 5,
@@ -37,14 +39,14 @@ export default class NoteComponent extends Component {
         };
 
         const titleStyle = {
-            fontSize: '2em'
+            fontFamily: 'Roboto',
+            fontSize: '0.9em',
+            fontWeight: 'bold'
         };
 
         const textStyle = {
-            fontSize: (
-                note.title ||
-                note.text.length >= 24
-            ) ? '1em' : '2em'
+            fontSize: note.text.length < 24 ? '2em' : '1em',
+            padding: '15px 5px'
         };
 
         return (

@@ -1,4 +1,5 @@
 require('roboto-fontface/css/roboto-fontface.css');
+require('roboto-slab-fontface-kit/roboto-slab.css');
 require('material-design-icons/iconfont/material-icons.css');
 require('material-icons/css/material-icons.css');
 require('skeleton-css/css/normalize.css');
