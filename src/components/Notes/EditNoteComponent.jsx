@@ -3,7 +3,7 @@ import { Editor, EditorState, ContentState } from 'draft-js';
 import FlatButton from 'material-ui/FlatButton';
 
 import EditorComponent from './Editor/EditorComponent';
-import ButtonColor from './ChangeColor/ButtonColor';
+import ButtonColor from './ChangeColor/ButtonColorComponent';
 
 export default class EditNoteComponent extends Component {
 
@@ -39,12 +39,20 @@ export default class EditNoteComponent extends Component {
     }
 
     handleClick() {
-        const { userId, tokenId, closeCreate, addNote, creating } = this.props;
+        const {
+            userId,
+            tokenId,
+            closeCreate,
+            addNote,
+            creating,
+            color
+        } = this.props;
 
         // Save the note
         addNote(userId, tokenId, {
             title: this.title,
-            text: this.text
+            text: this.text,
+            color: color
         });
 
         this.text = '';

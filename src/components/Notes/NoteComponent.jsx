@@ -32,7 +32,8 @@ export default class NoteComponent extends Component {
             margin: 5,
             textAlign: 'left',
             display: 'inline-block',
-            padding: 10
+            padding: 10,
+            backgroundColor: note.color || '#fff'
         };
 
         const titleStyle = {

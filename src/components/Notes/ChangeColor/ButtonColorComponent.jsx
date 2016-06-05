@@ -17,7 +17,10 @@ export default class ButtonColorComponent extends Component {
         };
     }
 
-    handleClick() {
+    handleClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         this.setState({
             active: !this.state.active,
             color: this.state.active ? '#676767' : '#9197A3'

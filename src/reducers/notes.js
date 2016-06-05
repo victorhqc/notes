@@ -1,6 +1,7 @@
 import {
     OPEN_CREATE_NOTE,
     CLOSE_CREATE_NOTE,
+    CHANGE_COLOR,
     ADD_NOTE,
     REQUEST,
     RECEIVE,
@@ -24,6 +25,7 @@ function note( state, action ) {
 
 export function newNote(state = {
     creating: false,
+    color: '#fff',
     title: '',
     text: ''
 }, action = {}) {
@@ -39,6 +41,12 @@ export function newNote(state = {
                 creating: false,
                 title: '',
                 text: ''
+            });
+        case CHANGE_COLOR:
+            if( !state.creating ) { return state; }
+
+            return Object.assign({}, state, {
+                color: action.color
             });
         default:
             return state;

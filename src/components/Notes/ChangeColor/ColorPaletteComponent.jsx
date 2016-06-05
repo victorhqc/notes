@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 
-import ColorComponent from './ColorComponent';
+import Color from './Color';
 
 export default function() {
     const colors = [
@@ -32,7 +32,7 @@ export default function() {
             style={style}
             zDepth={1}>
             {colors.map( ( color, index ) =>
-                <ColorComponent
+                <Color
                     index={ index }
                     key= { index }
                     size={ size }

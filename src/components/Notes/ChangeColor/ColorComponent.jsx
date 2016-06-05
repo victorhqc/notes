@@ -5,6 +5,17 @@ export default class ColorComponent extends Component {
 
     constructor(props) {
         super(props);
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const { changeColor, color } = this.props;
+
+        changeColor( color );
     }
 
     render() {
@@ -31,7 +42,8 @@ export default class ColorComponent extends Component {
 
         return (
             <IconButton
-                style={style}
+                onClick={ this.handleClick }
+                style={ style }
                 tooltip={ title } />
         );
     }

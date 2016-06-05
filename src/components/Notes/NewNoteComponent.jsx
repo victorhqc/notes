@@ -21,7 +21,7 @@ export default class NewNoteComponent extends Component {
     }
 
     render() {
-        const { creating, openCreate } = this.props;
+        const { creating, openCreate, color } = this.props;
 
         const style = {
             marginTop: 30,
@@ -30,7 +30,8 @@ export default class NewNoteComponent extends Component {
             textAlign: 'center',
             display: 'inline-block',
             padding: creating ? '15px 15px 50px 15px' : 15,
-            position: 'relative'
+            position: 'relative',
+            backgroundColor: !creating ? '#fff' : color
         };
 
         const columnStyle = {

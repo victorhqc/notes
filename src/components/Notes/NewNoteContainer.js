@@ -9,7 +9,8 @@ const mapStateToProps = ( state ) => ({
     tokenId: state.session.id,
     creating: state.newNote.creating,
     title: state.newNote.title,
-    text: state.newNote.text
+    text: state.newNote.text,
+    color: state.newNote.color
 });
 
 const mapDispatchToProps = ( dispatch ) => ({
