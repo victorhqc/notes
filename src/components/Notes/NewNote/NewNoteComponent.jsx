@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 
-import EditNoteComponent from './EditNoteComponent';
+import EditNoteComponent from '../Editor/EditNoteComponent';
 
 export default class NewNoteComponent extends Component {
     constructor(props) {

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Editor, EditorState, ContentState } from 'draft-js';
 import FlatButton from 'material-ui/FlatButton';
 
-import EditorComponent from './Editor/EditorComponent';
-import ButtonColor from './ChangeColor/ButtonColorComponent';
+import EditorComponent from './EditorComponent';
+import ButtonColor from '../ChangeColor/ButtonColorComponent';
 
 export default class EditNoteComponent extends Component {
 
