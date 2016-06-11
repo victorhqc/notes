@@ -1,7 +1,7 @@
 import React    from 'react';
 import { push } from 'react-router-redux';
 
-import NewNoteContainer from '../components/Notes/NewNoteContainer';
+import NewNoteContainer from '../components/Notes/NewNote/NewNoteContainer';
 import NotesContainer   from '../components/Notes/NotesContainer';
 import MenuContainer    from '../components/Menu/MenuContainer';
 

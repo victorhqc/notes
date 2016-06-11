@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Motion, spring} from 'react-motion';
 
-import NoteComponent from './NoteComponent';
+import NoteContainer from './NoteContainer';
 
 export default class NotesComponent extends Component {
 
@@ -20,6 +20,9 @@ export default class NotesComponent extends Component {
         this.state = {
             notes: props.notes
         };
+
+        this.gridStyle = this.gridStyle.bind(this);
+        this.editingStyle = this.editingStyle.bind(this);
     }
 
     registerIds(notes) {
@@ -62,6 +65,7 @@ export default class NotesComponent extends Component {
         this.stored = true;
 
         const { notes } = this.state;
+        const { editingNote } = this.props;
 
         let responseNotes = [];
         this.noteIds = this.registerIds(notes);
@@ -71,9 +75,10 @@ export default class NotesComponent extends Component {
                 prevRow = this.getPreviousRow( i, responseNotes ),
                 yOffset = 0,
                 mod = i % this.notesPerRow,
-                xOffset = mod * this.noteWidth + (( mod + 1 ) * this.noteMargin);
+                xOffset = mod * this.noteWidth + (( mod + 1 ) * this.noteMargin),
+                editing = (note.id === editingNote.id) ? true : false;
 
-            if( prevRow) {
+            if( prevRow ) {
 
                 let prevNote;
                 prevRow.every((prev) => {
@@ -99,12 +104,33 @@ export default class NotesComponent extends Component {
                     index: i,
                     height: el.offsetHeight,
                     yOffset,
-                    xOffset
+                    xOffset,
+                    editing
                 })
             );
         });
 
         this.setState({ notes: responseNotes });
+    }
+
+    editingStyle( note ) {
+        let screenWidth = window.innerWidth,
+            screenHeight = window.innerHeight,
+            width = screenWidth - (screenWidth * 0.2 * 2);
+
+        return {
+            xOffset: spring( screenWidth * 0.2 ),
+            yOffset: spring( screenHeight / 2 - ( note.height ) ),
+            width: spring( width )
+        };
+    }
+
+    gridStyle( note, springConfig ) {
+        return {
+            xOffset: spring( note.xOffset ? note.xOffset : 0 ),
+            yOffset: spring( note.yOffset ? note.yOffset : 0 ),
+            width: this.noteWidth
+        };
     }
 
     renderNotes( notes ) {
@@ -125,33 +151,28 @@ export default class NotesComponent extends Component {
             // The Note's array would be
             // [n00, n10, n20, n30, ..., n{x}0, n10, n11, n21, n31, ... n{x}1]
 
-            let width = this.noteWidth,
-                style = {
-                    xOffset: spring(note.xOffset ? note.xOffset : 0),
-                    yOffset: spring(note.yOffset ? note.yOffset : 0)
-                },
-                parentStyle = {
-                    position: 'absolute'
-                };
+            let style = ( note.editing ) ? this.editingStyle( note ) : this.gridStyle( note ),
+                zIndex = ( note.editing ) ? 10 : 1
 
             return (
-                <div key={i} style={ parentStyle }>
-                    <Motion style={ style }>
-                        {({ xOffset, yOffset }) => {
-                            let transform = `translate3d(${xOffset}px, ${yOffset}px,0)`;
-                            return (
-                                <div style={{
-                                    transiton: 'transform',
-                                    transform,
-                                    width,
-                                    zIndex: 999 - i
-                                }} id={'note-container-' + i}>
-                                    <NoteComponent note={note} />
-                                </div>
-                            );
-                        }}
-                    </Motion>
-                </div>
+                <Motion key={ i } style={ style }>
+                    {({ xOffset, yOffset, width }) => {
+                        let transform = `translate(${xOffset}px, ${yOffset}px)`;
+                        return (
+                            <div style={{
+                                transiton: 'transform',
+                                transform,
+                                width,
+                                zIndex,
+                                visibility: this.stored ? 'visible' : 'hidden',
+                                position: 'absolute',
+                                display: 'block'
+                            }} id={'note-container-' + i}>
+                                <NoteContainer note={note} />
+                            </div>
+                        );
+                    }}
+                </Motion>
             );
         });
 
@@ -171,8 +192,11 @@ export default class NotesComponent extends Component {
         this.storeHeights();
     }
 
-    componentWillReceiveProps({ notes }) {
-        if( notes !== this.props.notes ) {
+    componentWillReceiveProps({ notes, editingNote }) {
+        if(
+            notes !== this.props.notes ||
+            editingNote !== this.props.editingNote
+        ) {
             this.stored = false;
             this.setState({ notes })
         }

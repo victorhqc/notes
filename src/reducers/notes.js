@@ -3,6 +3,7 @@ import {
     CLOSE_CREATE_NOTE,
     CHANGE_COLOR,
     ADD_NOTE,
+    EDIT_NOTE,
     REQUEST,
     RECEIVE,
     FAIL_RECEIVE
@@ -18,6 +19,15 @@ function note( state, action ) {
     switch ( action.type ) {
         case ADD_NOTE:
             return Object.assign({}, action.note);
+        default:
+            return state;
+    }
+}
+
+export function editNote(state = {}, action = {}) {
+    switch( action.type ) {
+        case EDIT_NOTE:
+            return Object.assign( {}, action.note );
         default:
             return state;
     }

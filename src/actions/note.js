@@ -104,3 +104,12 @@ export function createNote( userId, tokenId, note ) {
         );
     };
 }
+
+export const EDIT_NOTE = 'EDIT_NOTE';
+
+export function editNote( note ) {
+    return {
+        type: EDIT_NOTE,
+        note
+    };
+}

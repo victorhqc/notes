@@ -8,6 +8,7 @@ export default class NoteComponent extends Component {
 
         this.handleMouseOver = this.handleMouseOver.bind(this);
         this.handleMouseOut = this.handleMouseOut.bind(this);
+        this.handleClick = this.handleClick.bind(this);
 
         this.state = {
             zDepth: 1
@@ -20,6 +21,12 @@ export default class NoteComponent extends Component {
 
     handleMouseOut() {
         this.setState({ zDepth: 1 });
+    }
+
+    handleClick() {
+        const { editNote, note } = this.props;
+
+        editNote( note );
     }
 
     render() {
@@ -53,6 +60,7 @@ export default class NoteComponent extends Component {
             <Paper
                 style={style}
                 zDepth={zDepth}
+                onClick={ this.handleClick }
                 onMouseOver={ this.handleMouseOver }
                 onMouseOut={ this.handleMouseOut }>
                 <div style={titleStyle}>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchNotes } from '../../actions';
@@ -8,7 +8,8 @@ import NotesComponent from './NotesComponent';
 const mapStateToProps = ( state ) => ({
     userId: state.user.id,
     tokenId: state.session.id,
-    notes: state.notes.notes
+    notes: state.notes.notes,
+    editingNote: state.editNote
 });
 
 const mapDispatchToProps = ( dispatch ) => ({
