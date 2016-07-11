@@ -72,6 +72,7 @@ export default class NotesComponent extends Component {
 
         notes.forEach(( note, i ) => {
             let el = document.getElementById('note-container-' + i),
+                rect = el.getBoundingClientRect(),
                 prevRow = this.getPreviousRow( i, responseNotes ),
                 yOffset = 0,
                 mod = i % this.notesPerRow,
@@ -164,6 +165,7 @@ export default class NotesComponent extends Component {
                                 transform,
                                 width,
                                 zIndex,
+                                minWidth: this.noteWidth,
                                 visibility: this.stored ? 'visible' : 'hidden',
                                 position: 'absolute',
                                 display: 'block'
@@ -183,7 +185,8 @@ export default class NotesComponent extends Component {
         this.containerWidth = this.container.offsetWidth;
         // 4 notes by screen size.
         // TODO: Change this for a more dynamic way for small screens.
-        this.noteWidth = (this.containerWidth / this.notesPerRow) - (this.noteMargin * 2); // 15 margin for each side
+        // 15 margin for each side
+        this.noteWidth = (this.containerWidth / this.notesPerRow) - (this.noteMargin * 2);
 
         this.containerRect = this.container.getBoundingClientRect();
     }
@@ -213,8 +216,8 @@ export default class NotesComponent extends Component {
 
         if( !userId || !tokenId || !authorized ){ return; }
 
-        fetchNotes(userId, tokenId);
         this.defineDimensions();
+        fetchNotes(userId, tokenId);
     }
 
     render() {
