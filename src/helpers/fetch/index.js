@@ -5,7 +5,7 @@ export const JSON_HEADERS = {
 
 export function jsonHeaders(token) {
     let headers = JSON_HEADERS;
-    if(token) {
+    if ( token ) {
         headers.Authorization = token;
     }
 
@@ -13,7 +13,7 @@ export function jsonHeaders(token) {
 }
 
 export function checkStatus(response) {
-    if(response.status >= 200 && response.status < 300) {
+    if ( response.status >= 200 && response.status < 300 ) {
         return response;
     }
 

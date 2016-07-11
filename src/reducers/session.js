@@ -12,6 +12,24 @@ import {
     failReceive
 } from './request';
 
+export function authorized(state = true, action = {}) {
+    switch(action.type) {
+        case REQUEST:
+        case RECEIVE:
+            return true;
+        case FAIL_RECEIVE:
+            if(
+                !action.hasOwnProperty('error') ||
+                !action.error.hasOwnProperty('response')
+            ) {
+                return true;
+            }
+            return action.error.response.status === 401 ? false : true;
+        default:
+            return state;
+    }
+}
+
 export function session(state = {}, action = {}) {
     if(
         action.hasOwnProperty('name') &&

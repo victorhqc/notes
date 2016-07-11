@@ -6,6 +6,7 @@ import {
     ACCESS,
     fetchAccessIfNeeded,
     receive,
+    removeAccess
 } from '../actions';
 
 import Login from '../components/session/Login';
@@ -21,11 +22,18 @@ export default class LoginContainer extends Component {
     }
 
     goToRoot(store) {
-        const { session } = store.getState();
+        const { session, authorized } = store.getState();
+
+        if(
+            !authorized &&
+            session.hasOwnProperty('id')
+        ) {
+            return store.dispatch( removeAccess() );
+        }
 
         if( session.hasOwnProperty('id') ) {
             this.unsuscribe();
-            return store.dispatch(push('/'));
+            return store.dispatch( push('/') );
         }
     }
 

@@ -25,7 +25,10 @@ export default class AppContainer extends React.Component {
     }
 
     verifyAccess(state, store) {
-        if( ! state.session.hasOwnProperty('id') ) {
+        if(
+            ! state.session.hasOwnProperty('id') ||
+            ! state.authorized
+        ) {
             this.unsuscribe();
             store.dispatch(push('/login'));
         }

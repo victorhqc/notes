@@ -6,6 +6,7 @@ import { fetchNotes } from '../../actions';
 import NotesComponent from './NotesComponent';
 
 const mapStateToProps = ( state ) => ({
+    authorized: state.authorized,
     userId: state.user.id,
     tokenId: state.session.id,
     notes: state.notes.notes,

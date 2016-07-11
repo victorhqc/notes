@@ -42,11 +42,9 @@ export function fetchNotes( userId, tokenId ) {
         })
         .then(checkStatus)
         .then(parseJSON)
-        .then(json => {
-            dispatch(receive('notes', { notes: json }));
-        })
-        .catch(err =>
-            dispatch(failReceive('notes', err))
+        .then(
+            json => dispatch(receive('notes', { notes: json })),
+            err => dispatch(failReceive('notes', err))
         );
     };
 }

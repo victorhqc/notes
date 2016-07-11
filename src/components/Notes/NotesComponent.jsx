@@ -209,9 +209,9 @@ export default class NotesComponent extends Component {
     }
 
     componentDidMount() {
-        const { userId, tokenId, fetchNotes } = this.props;
+        const { userId, tokenId, fetchNotes, authorized } = this.props;
 
-        if( !userId || !tokenId ){ return; }
+        if( !userId || !tokenId || !authorized ){ return; }
 
         fetchNotes(userId, tokenId);
         this.defineDimensions();
