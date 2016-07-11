@@ -1,8 +1,7 @@
 import {
     REQUEST,
     RECEIVE,
-    FAIL_RECEIVE,
-    REMOVE_ACCESS
+    FAIL_RECEIVE
 } from '../actions';
 
 export function request(state, action) {

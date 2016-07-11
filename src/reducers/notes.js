@@ -6,7 +6,8 @@ import {
     EDIT_NOTE,
     REQUEST,
     RECEIVE,
-    FAIL_RECEIVE
+    FAIL_RECEIVE,
+    REMOVE_ACCESS
 } from '../actions';
 
 import {
@@ -28,6 +29,8 @@ export function editNote(state = {}, action = {}) {
     switch( action.type ) {
         case EDIT_NOTE:
             return Object.assign( {}, action.note );
+        case REMOVE_ACCESS:
+            return {};
         default:
             return state;
     }
@@ -58,6 +61,8 @@ export function newNote(state = {
             return Object.assign({}, state, {
                 color: action.color
             });
+        case REMOVE_ACCESS:
+            return {};
         default:
             return state;
     }
@@ -98,6 +103,8 @@ export function notes(state = {
             return receive(state, action);
         case FAIL_RECEIVE:
             return failReceive(state, action);
+        case REMOVE_ACCESS:
+            return [];
         default:
             return state;
     }
