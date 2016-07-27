@@ -64,8 +64,8 @@ export default class NotesComponent extends Component {
         if( this.stored ){ return; }
         this.stored = true;
 
-        const { notes } = this.state;
         const { editingNote } = this.props;
+        let notes = this.state.notes || [];
 
         let responseNotes = [];
         this.noteIds = this.registerIds(notes);
@@ -134,7 +134,7 @@ export default class NotesComponent extends Component {
         };
     }
 
-    renderNotes( notes ) {
+    renderNotes( notes = [] ) {
 
         return notes.map(( note, i ) => {
             // To get the "x" offset, the previous row must be obtained, and get the actual shortest (unused) note is.
@@ -195,11 +195,17 @@ export default class NotesComponent extends Component {
         this.storeHeights();
     }
 
-    componentWillReceiveProps({ notes, editingNote }) {
-        if(
+    componentWillReceiveProps({ fetchNotes, notes, editingNote, userId, tokenId }) {
+        if (
             notes !== this.props.notes ||
-            editingNote !== this.props.editingNote
+            editingNote !== this.props.editingNote ||
+            userId !== this.props.userId
         ) {
+            if ( !notes ) {
+                this.defineDimensions();
+                return fetchNotes(userId, tokenId);
+            }
+
             this.stored = false;
             this.setState({ notes })
         }
