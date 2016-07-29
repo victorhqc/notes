@@ -28,9 +28,15 @@ npm i
 
 ## Running the project
 
-For develop, just run the project as following
+### Development mode
+Just run the project as following
 ```sh
 npm start
+```
+
+### Build mode
+```sh
+npm run start:build
 ```
 
 ## License
