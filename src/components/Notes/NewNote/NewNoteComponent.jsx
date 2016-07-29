@@ -8,6 +8,7 @@ export default class NewNoteComponent extends Component {
         super(props);
 
         this.handleEscPress = this.handleEscPress.bind(this);
+        //this.handleClick = this.handleClick.bind(this);
     }
 
     handleEscPress({ keyCode }) {
@@ -18,6 +19,27 @@ export default class NewNoteComponent extends Component {
 
             closeCreate(creating);
         }
+    }
+
+    handleClick({ title, text }) {
+        const {
+            userId,
+            tokenId,
+            closeCreate,
+            addNote,
+            creating,
+            color
+        } = this.props;
+
+        // Save the note
+        addNote(userId, tokenId, {
+            title,
+            text,
+            color
+        });
+
+        // Close the editor
+        closeCreate( creating );
     }
 
     render() {
@@ -47,7 +69,9 @@ export default class NewNoteComponent extends Component {
                             style={style}
                             zDepth={1}
                             onTouchTap={() => openCreate(creating) }>
-                            <EditNoteComponent {...this.props} />
+                            <EditNoteComponent
+                                handleClick={this.handleClick.bind(this)}
+                                {...this.props} />
                         </Paper>
                     </div>
                 </div>

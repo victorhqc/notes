@@ -39,27 +39,15 @@ export default class EditNoteComponent extends Component {
     }
 
     handleClick() {
-        const {
-            userId,
-            tokenId,
-            closeCreate,
-            addNote,
-            creating,
-            color
-        } = this.props;
+        const { handleClick } = this.props;
 
-        // Save the note
-        addNote(userId, tokenId, {
-            title: this.title,
+        handleClick({
             text: this.text,
-            color: color
+            title: this.title
         });
 
         this.text = '';
         this.title = '';
-
-        // Close the editor
-        closeCreate( creating );
     }
 
     renderTitle( creating, title ) {
