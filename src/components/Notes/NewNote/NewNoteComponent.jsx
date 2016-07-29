@@ -63,15 +63,15 @@ export default class NewNoteComponent extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div style={columnStyle} className="eight columns">
+                    <div style={ columnStyle } className="eight columns">
                         <Paper
                             onKeyDown={ this.handleEscPress }
-                            style={style}
-                            zDepth={1}
-                            onTouchTap={() => openCreate(creating) }>
+                            style={ style }
+                            zDepth={ 1 }
+                            onTouchTap={() => openCreate( creating ) }>
                             <EditNoteComponent
-                                handleClick={this.handleClick.bind(this)}
-                                {...this.props} />
+                                handleClick={ this.handleClick.bind(this) }
+                                { ...this.props } />
                         </Paper>
                     </div>
                 </div>

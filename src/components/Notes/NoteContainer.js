@@ -5,7 +5,9 @@ import { editNote } from '../../actions';
 
 import NoteComponent from './NoteComponent';
 
-const mapStateToProps = ( state ) => ({});
+const mapStateToProps = ( state ) => ({
+    editingNote: state.editNote
+});
 
 const mapDispatchToProps = ( dispatch ) => ({
     editNote(note) {

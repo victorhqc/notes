@@ -16,8 +16,8 @@ export default class EditNoteComponent extends Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
 
-        this.title = '';
-        this.text = '';
+        this.title = props.title || '';
+        this.text = props.text || '';
 
         this.state = {
             creating: props.creating
@@ -25,19 +25,34 @@ export default class EditNoteComponent extends Component {
     }
 
     componentWillReceiveProps({ creating }) {
-        if( this.state.creating !== creating ) {
+        if ( this.state.creating !== creating ) {
             this.setState({ creating });
         }
     }
 
+    /**
+     * Receives the title from the EditorComponent. This to avoid using inner state or Redux
+     * state, as it would consume a lot of memory.
+     * @param  {String} title
+     */
     handleTitleChange( title ) {
         this.title = title;
     }
 
+    /**
+     * Receives the text from the EditorComponent. This to avoid using inner state or Redux
+     * state, as it would consume a lot of memory.
+     * @param  {String} text
+     */
     handleTextChange( text ) {
         this.text = text;
     }
 
+    /**
+     * Handles the Click sent from the parent Component. This to keep separation of concerns,
+     * this component is the Editor Only, doesn't care what happens to the text, if is being
+     * used to edit or create a Note.
+     */
     handleClick() {
         const { handleClick } = this.props;
 
@@ -54,12 +69,12 @@ export default class EditNoteComponent extends Component {
         if ( !creating ) { return null; }
 
         return (
-            <div className="title-test">
+            <div className='title-test'>
                 <EditorComponent
+                    { ...this.props }
                     placeholder='Title'
-                    change={this.handleTitleChange}
-                    text={title}
-                    { ...this.props } />
+                    change={ this.handleTitleChange }
+                    text={ title } />
             </div>
         );
     }
@@ -106,8 +121,8 @@ export default class EditNoteComponent extends Component {
                 { this.renderTitle( creating, title ) }
                 <EditorComponent
                     placeholder='Write a note...'
-                    text={text}
-                    change={this.handleTextChange}
+                    text={ text }
+                    change={ this.handleTextChange }
                     { ...this.props } />
                 { this.renderToolButtons( creating ) }
                 { this.renderDoneButton( creating ) }
