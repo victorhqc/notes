@@ -12,7 +12,8 @@ export default class NoteComponent extends Component {
         this.handleMouseOut = this.handleMouseOut.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleSave = this.handleSave.bind(this);
-        this.isEditing = this.isEditing.bind(this);
+
+        this.isEditing = props.isEditing;
 
         this.state = {
             zDepth: 1
@@ -27,20 +28,25 @@ export default class NoteComponent extends Component {
         this.setState({ zDepth: 1 });
     }
 
-    isEditing() {
-        const { editingNote, note } = this.props;
-        return note.id === editingNote.id;
-    }
-
     handleClick() {
-        const { editNote, note } = this.props;
-        if( this.isEditing() ) { return; }
+        const { editNote, isEditing, note } = this.props;
+        if( isEditing ) { return; }
 
         editNote( note );
     }
 
     handleSave() {
 
+    }
+
+    shouldComponentUpdate( { isEditing } ) {
+
+        if ( isEditing !== this.isEditing ) {
+            this.isEditing = isEditing;
+            return true;
+        }
+
+        return false;
     }
 
     renderReadMode( note ) {
@@ -112,11 +118,12 @@ export default class NoteComponent extends Component {
     }
 
     renderNote() {
-        const { note } = this.props;
-        return this.isEditing() ? this.renderEditMode( note ) : this.renderReadMode( note );
+        const { note, isEditing } = this.props;
+        return isEditing ? this.renderEditMode( note ) : this.renderReadMode( note );
     }
 
     render() {
+        console.log(`Rendering Note ${this.props.note.title}`);
         return (
             <div>
                 { this.renderNote() }

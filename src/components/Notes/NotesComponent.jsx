@@ -170,7 +170,9 @@ export default class NotesComponent extends Component {
                                 position: 'absolute',
                                 display: 'block'
                             }} id={'note-container-' + i}>
-                                <NoteContainer note={note} />
+                                <NoteContainer
+                                    isEditing={ note.editing }
+                                    note={ note } />
                             </div>
                         );
                     }}
