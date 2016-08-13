@@ -11,7 +11,7 @@ module.exports = {
     devServer: {
         inline: true,
         historyApiFallback: true,
-        contentBase: './dist',
+        contentBase: './src',
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
