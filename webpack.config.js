@@ -4,14 +4,14 @@ var path = require('path');
 var args = require('minimist')(process.argv.slice(2));
 
 // List of allowed environments
-const allowedEnvs = ['development', 'production'];
+const allowedEnvs = ['local', 'production'];
 
 // Set the correct environment
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'local';
 
 // Get available configurations
 var configs = {
-  development: require(path.join(__dirname, 'webpack/development')),
+  local: require(path.join(__dirname, 'webpack/local')),
   production: require(path.join(__dirname, 'webpack/production'))
 };
 
@@ -22,7 +22,7 @@ var configs = {
  */
 function getValidEnv(env) {
   var isValid = env && env.length > 0 && allowedEnvs.indexOf(env) !== -1;
-  return isValid ? env : 'development';
+  return isValid ? env : 'local';
 }
 
 /**

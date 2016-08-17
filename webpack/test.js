@@ -19,7 +19,7 @@ var config = _.merge({
 }, baseConfig);
 
 config.resolve.alias =  {
-    api: path.join(apiPath + '/development.js')
+    api: path.join(apiPath + '/local.js')
 };
 
 config.module.loaders.push({
