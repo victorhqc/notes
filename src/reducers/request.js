@@ -4,11 +4,20 @@ import {
     FAIL_RECEIVE
 } from '../actions';
 
+export function isFetching( state, action ) {
+    switch ( action.type ) {
+        case REQUEST:
+            return true;
+        case RECEIVE:
+        case FAIL_RECEIVE:
+            return false;
+    }
+}
+
 export function request(state, action) {
     switch(action.type) {
         case REQUEST:
             let obj = {
-                isFetching: true,
                 requestedAt: action.requestedAt,
                 error: null,
                 failedAt: null
@@ -25,7 +34,6 @@ export function receive(state, action) {
         case RECEIVE:
 
             let obj = {
-                isFetching: false,
                 receivedAt: action.receivedAt,
                 error: null,
                 failedAt: null
@@ -42,7 +50,6 @@ export function failReceive(state, action) {
     switch(action.type) {
         case FAIL_RECEIVE:
             let obj = {
-                isFetching: false,
                 receivedAt: null,
                 error: action.error,
                 failedAt: action.failedAt

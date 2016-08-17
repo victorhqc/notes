@@ -24,9 +24,9 @@ export const USER = 'USER';
 export function fetchUserIfNeeded() {
 
     return (dispatch, getState) => {
-        const { user, session } = getState();
+        const { user, session, isFetching } = getState();
 
-        if( shouldFetch( user ) ) {
+        if( shouldFetch( user, isFetching ) ) {
             return dispatch(
                 fetchCurrentUser( session.userId, session.id )
             );

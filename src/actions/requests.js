@@ -3,8 +3,8 @@ export const REQUEST = 'REQUEST';
 export function request(name) {
     return {
         type: REQUEST,
-        requestedAt: Date.now(),
-        name
+        name,
+        requestedAt: Date.now()
     };
 }
 
@@ -13,9 +13,9 @@ export const RECEIVE = 'RECEIVE';
 export function receive(name, json) {
     return {
         type: RECEIVE,
-        result: Object.assign({}, json),
+        name,
         receivedAt: Date.now(),
-        name
+        result: Object.assign({}, json)
     };
 }
 
@@ -31,12 +31,10 @@ export function failReceive(name, json) {
 }
 
 
-export function shouldFetch(state) {
-    if(!state || !state.isFetching ) {
-        return true;
-    } else if( state.isFetching ) {
-        return false;
-    } else {
+export function shouldFetch( state, isFetching ) {
+    if ( !isFetching ) {
         return true;
     }
+
+    return false;
 }
