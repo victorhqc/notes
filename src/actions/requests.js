@@ -24,17 +24,17 @@ export const FAIL_RECEIVE = 'FAIL_RECEIVE';
 export function failReceive(name, json) {
     return {
         type: FAIL_RECEIVE,
-        error: Object.assign({}, json),
+        name,
         failedAt: Date.now(),
-        name
+        error: Object.assign({}, json)
     };
 }
 
 
-export function shouldFetch( state, isFetching ) {
-    if ( !isFetching ) {
-        return true;
+export function shouldFetch( state ) {
+    if ( state && state.isFetching ) {
+        return false;
     }
 
-    return false;
+    return true;
 }

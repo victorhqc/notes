@@ -30,7 +30,7 @@ export function removeAccess() {
     };
 }
 
-export function fetchAccess(email, password) {
+export function fetchAccess( email, password ) {
 
     return function(dispatch) {
 
@@ -59,9 +59,12 @@ export function fetchAccess(email, password) {
 
 export function fetchAccessIfNeeded(username, password) {
 
-    return (dispatch, getState) => {
-        if( shouldFetch( getState().session ) ) {
+    return ( dispatch, getState ) => {
+        const { session } = getState();
+        if( shouldFetch( session ) ) {
+
             return dispatch( fetchAccess( username, password ) );
+
         }else {
             return Promise.resolve();
         }

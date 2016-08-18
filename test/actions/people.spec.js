@@ -7,6 +7,11 @@ import thunk from 'redux-thunk';
 
 import { url } from 'api';
 
+import {
+    RECEIVE,
+    REQUEST
+} from '../../src/actions/requests';
+
 const middlewares = [ thunk ];
 const mockStore = configureMockStore( middlewares );
 
@@ -23,7 +28,7 @@ const cleanResponseTimestamps = ( actions, expectedActions ) => {
 };
 
 describe('People Actions', function() {
-    afterEach(() => fetchMock.restore() );
+    afterEach(() => fetchMock.reset() );
 
     const user = {
         id: 1,
@@ -52,10 +57,8 @@ describe('People Actions', function() {
 
     const {
         fetchUserIfNeeded,
-        fetchCurrentUser,
-        REQUEST,
-        RECEIVE
-    } = require('../../src/actions');
+        fetchCurrentUser
+    } = require('../../src/actions/people');
 
     it ('Should fetch an User', ( done ) => {
         const resultActions = [{
@@ -81,11 +84,6 @@ describe('People Actions', function() {
     });
 
     it ('Should fetch an user if needed', ( done ) => {
-        fetchMock.mock(PEOPLE_URL + 1, response, {
-            name: 'fetch-user',
-            method: 'GET',
-            response
-        });
 
         const resultActions = [{
             type: REQUEST,
@@ -103,7 +101,9 @@ describe('People Actions', function() {
                 id: 'some_token',
                 userId: 1
             },
-            isFetching: false
+            user: {
+                isFetching: false
+            }
         });
 
         dispatch( fetchUserIfNeeded() )
@@ -116,11 +116,6 @@ describe('People Actions', function() {
     });
 
     it ('Shoult not fetch an user if not needed', ( done ) => {
-        fetchMock.mock(PEOPLE_URL + 1, response, {
-            name: 'fetch-user',
-            method: 'GET',
-            response
-        });
 
         const resultActions = [];
 
@@ -129,7 +124,9 @@ describe('People Actions', function() {
                 id: 'some_token',
                 userId: 1
             },
-            isFetching: true
+            user: {
+                isFetching: true
+            }
         });
 
         dispatch( fetchUserIfNeeded() )
