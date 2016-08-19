@@ -7,6 +7,8 @@ import thunk from 'redux-thunk';
 
 import { url } from 'api';
 
+import { cleanResponse } from '../../src/helpers/tests';
+
 import {
     REQUEST,
     RECEIVE,
@@ -17,23 +19,6 @@ const middlewares = [ thunk ];
 const mockStore = configureMockStore( middlewares );
 
 export const LOGIN_URL = url + 'people/login';
-
-const cleanResponseTimestamps = ( actions, expectedActions ) => {
-    expectedActions[0].requestedAt = actions[0].requestedAt;
-
-    if ( actions[1].receivedAt ) {
-        expectedActions[1].receivedAt = actions[1].receivedAt;
-    }
-
-    if ( actions[1].failedAt ) {
-        expectedActions[1].failedAt = actions[1].failedAt;
-    }
-
-    return {
-        expectedActions,
-        actions
-    };
-};
 
 describe('Session Actions', function() {
     afterEach(() => fetchMock.reset() );
@@ -98,7 +83,7 @@ describe('Session Actions', function() {
 
         dispatch( fetchAccess( params.username, params.password ) )
         .then(() => {
-            const { actions, expectedActions } = cleanResponseTimestamps( getActions(), resultActions );
+            const { actions, expectedActions } = cleanResponse( getActions(), resultActions );
             assert.deepEqual( actions, expectedActions );
             done();
         })
@@ -149,7 +134,7 @@ describe('Session Actions', function() {
 
         dispatch( fetchAccess( params.username, 'bad_password' ) )
         .then(() => {
-            let { actions, expectedActions } = cleanResponseTimestamps( getActions(), resultActions );
+            let { actions, expectedActions } = cleanResponse( getActions(), resultActions );
             const error = actions[1].error;
             delete actions[1].error;
             assert.deepEqual( actions, expectedActions );
@@ -177,7 +162,7 @@ describe('Session Actions', function() {
 
         dispatch( fetchAccessIfNeeded( params.username, params.password ) )
         .then(() => {
-            const { actions, expectedActions } = cleanResponseTimestamps( getActions(), resultActions );
+            const { actions, expectedActions } = cleanResponse( getActions(), resultActions );
             assert.deepEqual( actions, expectedActions );
             done();
         })

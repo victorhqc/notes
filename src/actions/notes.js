@@ -26,9 +26,26 @@ function getUri(userId) {
     return PEOPLE_URL + userId + '/notes/';
 }
 
-export function fetchNotes( userId, tokenId ) {
+export function fetchNotesIfNeeded() {
 
-    return function( dispatch ) {
+    return ( dispatch, getState ) => {
+        const { notes, session } = getState();
+
+        if( shouldFetch( notes ) ) {
+            return dispatch(
+                fetchNotes( session.userId, session.id )
+            );
+        }else {
+            return Promise.resolve();
+        }
+    };
+}
+
+export function fetchNotes() {
+
+    return function( dispatch, getState ) {
+        const { user, session } = getState();
+
         dispatch(request('notes'));
 
         let filter = {
@@ -36,14 +53,14 @@ export function fetchNotes( userId, tokenId ) {
         };
         let params = '?filter=' + encodeURIComponent(JSON.stringify( filter ) );
 
-        return fetch( getUri( userId ) + params, {
+        return fetch( getUri( user.id ) + params, {
             method: 'GET',
-            headers: jsonHeaders( tokenId )
+            headers: jsonHeaders( session.id )
         })
         .then(checkStatus)
         .then(parseJSON)
         .then(
-            json => dispatch(receive('notes', { notes: json })),
+            notes => dispatch(receive('notes', { notes })),
             err => dispatch(failReceive('notes', err))
         );
     };
@@ -77,26 +94,26 @@ export function changeColor( color, note ) {
 
 export const ADD_NOTE = 'ADD_NOTE';
 
-function addNote( note ) {
+export function addNote( note ) {
     return {
         type: ADD_NOTE,
         note
     };
 }
 
-let lastId = 0;
-export function createNote( userId, tokenId, note ) {
+export function createNote( note ) {
 
-    return function( dispatch ) {
+    return function( dispatch, getState ) {
+        const { user, session } = getState();
 
-        return fetch( getUri( userId ), {
+        return fetch( getUri( user.id ), {
             method: 'POST',
-            headers: jsonHeaders(tokenId),
+            headers: jsonHeaders( session.id ),
             body: JSON.stringify(note)
         })
         .then(checkStatus)
         .then(parseJSON)
-        .then(json => dispatch( addNote(json) ) )
+        .then(note => dispatch( addNote( note ) ) )
         .catch(err =>
             console.log(err)
         );

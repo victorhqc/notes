@@ -12,20 +12,12 @@ import {
     REQUEST
 } from '../../src/actions/requests';
 
+import { cleanResponse } from '../../src/helpers/tests';
+
 const middlewares = [ thunk ];
 const mockStore = configureMockStore( middlewares );
 
 export const PEOPLE_URL = url + 'people/';
-
-const cleanResponseTimestamps = ( actions, expectedActions ) => {
-    expectedActions[0].requestedAt = actions[0].requestedAt;
-    expectedActions[1].receivedAt = actions[1].receivedAt;
-
-    return {
-        expectedActions,
-        actions
-    };
-};
 
 describe('People Actions', function() {
     afterEach(() => fetchMock.reset() );
@@ -76,7 +68,7 @@ describe('People Actions', function() {
 
         dispatch( fetchCurrentUser( 1, 'some_token') )
         .then(() => {
-            const { actions, expectedActions } = cleanResponseTimestamps( getActions(), resultActions );
+            const { actions, expectedActions } = cleanResponse( getActions(), resultActions );
             assert.deepEqual( actions, expectedActions );
             done();
         })
@@ -108,7 +100,7 @@ describe('People Actions', function() {
 
         dispatch( fetchUserIfNeeded() )
         .then(() => {
-            const { actions, expectedActions } = cleanResponseTimestamps( getActions(), resultActions );
+            const { actions, expectedActions } = cleanResponse( getActions(), resultActions );
             assert.deepEqual( actions, expectedActions );
             done();
         })
