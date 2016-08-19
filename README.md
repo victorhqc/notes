@@ -39,6 +39,11 @@ npm start
 npm run start:build
 ```
 
+### Running tests
+```sh
+npm run test
+```
+
 ## License
 MIT
 
