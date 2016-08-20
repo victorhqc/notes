@@ -11,10 +11,12 @@ export function isFetching( state, action ) {
         case RECEIVE:
         case FAIL_RECEIVE:
             return false;
+        default:
+            return false;
     }
 }
 
-export function request(state, action) {
+export function request(state = {}, action = {}) {
     switch(action.type) {
         case REQUEST:
             let obj = {
@@ -29,7 +31,7 @@ export function request(state, action) {
     }
 }
 
-export function receive(state, action) {
+export function receive(state = {}, action = {}) {
     switch(action.type) {
         case RECEIVE:
 
@@ -46,7 +48,7 @@ export function receive(state, action) {
     }
 }
 
-export function failReceive(state, action) {
+export function failReceive(state = {}, action = {}) {
     switch(action.type) {
         case FAIL_RECEIVE:
             let obj = {
