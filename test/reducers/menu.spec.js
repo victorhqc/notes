@@ -1,42 +1,43 @@
 import { assert } from 'chai';
 import deepFreeze from 'deep-freeze';
-import moment from 'moment';
 
 import {
-    TOGGLE_MENU
+    TOGGLE_MENU,
 } from '../../src/actions';
 
 import {
-    menu
+    menu,
 } from '../../src/reducers/menu';
 
-describe('Menu Reducer', function() {
-    it ('Should return the initial state', () => {
-        const response = menu( undefined, {} );
-        assert.deepEqual( response, { visible: false });
+/* global it, describe */
+
+describe('Menu Reducer', () => {
+    it('Should return the initial state', () => {
+        const response = menu(undefined, {});
+        assert.deepEqual(response, { visible: false });
     });
 
-    it ('Should handle TOGGLE_MENU', () => {
+    it('Should handle TOGGLE_MENU', () => {
         const nonVisible = {
-            visible: false
+            visible: false,
         };
-        deepFreeze( nonVisible );
+        deepFreeze(nonVisible);
 
         const visible = {
-            visible: true
+            visible: true,
         };
-        deepFreeze( visible );
+        deepFreeze(visible);
 
         // When the menu is not visible, should be visible after.
-        const visibleResponse = menu( nonVisible, {
-            type: TOGGLE_MENU
+        const visibleResponse = menu(nonVisible, {
+            type: TOGGLE_MENU,
         });
-        assert.deepEqual( visible, visibleResponse );
+        assert.deepEqual(visible, visibleResponse);
 
         // When the menu is visible, should not be visible after.
-        const nonVisibleResponse = menu( visible, {
-            type: TOGGLE_MENU
+        const nonVisibleResponse = menu(visible, {
+            type: TOGGLE_MENU,
         });
-        assert.deepEqual( nonVisible, nonVisibleResponse );
+        assert.deepEqual(nonVisible, nonVisibleResponse);
     });
 });

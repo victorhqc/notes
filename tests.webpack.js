@@ -1,7 +1,5 @@
 // tests.webpack.js
-var context = require.context('./test', true, /.+\.spec\.jsx?$/);
-
-require('core-js/es5');
+const context = require.context('./test', true, /.+\.spec\.jsx?$/);
 
 context.keys().forEach(context);
 module.exports = context;

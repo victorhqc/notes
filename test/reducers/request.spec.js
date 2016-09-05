@@ -1,146 +1,147 @@
 import { assert } from 'chai';
 import deepFreeze from 'deep-freeze';
-import moment from 'moment';
 
 import {
     REQUEST,
     RECEIVE,
-    FAIL_RECEIVE
+    FAIL_RECEIVE,
 } from '../../src/actions';
 
 import {
     isFetching,
     request,
     receive,
-    failReceive
+    failReceive,
 } from '../../src/reducers/request';
 
-describe('IsFetching Reducer', function() {
-    it ('Should return the initial state', () => {
-        const response = isFetching( undefined, {} );
-        assert.isFalse( response );
+/* global it, describe */
+
+describe('IsFetching Reducer', () => {
+    it('Should return the initial state', () => {
+        const response = isFetching(undefined, {});
+        assert.isFalse(response);
     });
 
-    it ('Should handle REQUEST', () => {
-        const response = isFetching( false, {
-            type: REQUEST
+    it('Should handle REQUEST', () => {
+        const response = isFetching(false, {
+            type: REQUEST,
         });
-        assert.isTrue( response );
+        assert.isTrue(response);
     });
 
-    it ('Should handle RECEIVE', () => {
-        const response = isFetching( true, {
-            type: RECEIVE
+    it('Should handle RECEIVE', () => {
+        const response = isFetching(true, {
+            type: RECEIVE,
         });
-        assert.isFalse( response );
+        assert.isFalse(response);
     });
 
-    it ('Should handle FAIL_RECEIVE', () => {
-        const response = isFetching( true, {
-            type: FAIL_RECEIVE
+    it('Should handle FAIL_RECEIVE', () => {
+        const response = isFetching(true, {
+            type: FAIL_RECEIVE,
         });
-        assert.isFalse( response );
+        assert.isFalse(response);
     });
 });
 
-describe('Request Reducer', function() {
-    it ('Should return the initial state', () => {
-        const response = request( undefined, {} );
-        assert.deepEqual( response, {} );
+describe('Request Reducer', () => {
+    it('Should return the initial state', () => {
+        const response = request(undefined, {});
+        assert.deepEqual(response, {});
     });
 
-    it ('Should handle REQUEST', () => {
+    it('Should handle REQUEST', () => {
         const currentState = {
-            foo: 'bar'
+            foo: 'bar',
         };
-        deepFreeze( currentState );
+        deepFreeze(currentState);
 
         const now = Date.now();
         const expectedState = {
             foo: 'bar',
             requestedAt: now,
             error: null,
-            failedAt: null
+            failedAt: null,
         };
 
         assert.deepEqual(
-            request( currentState, {
+            request(currentState, {
                 type: REQUEST,
-                requestedAt: now
+                requestedAt: now,
             }),
             expectedState
         );
     });
 });
 
-describe('Receive Reducer', function() {
-    it ('Should return the initial state', () => {
-        const response = receive( undefined, {} );
-        assert.deepEqual( response, {} );
+describe('Receive Reducer', () => {
+    it('Should return the initial state', () => {
+        const response = receive(undefined, {});
+        assert.deepEqual(response, {});
     });
 
-    it ('Should handle RECEIVE', () => {
+    it('Should handle RECEIVE', () => {
         const currentState = {
-            foo: 'bar'
+            foo: 'bar',
         };
-        deepFreeze( currentState );
+        deepFreeze(currentState);
 
         const result = {
             id: 1,
-            something: 'cool'
+            something: 'cool',
         };
-        deepFreeze( result );
+        deepFreeze(result);
 
         const now = Date.now();
         const expectedState = Object.assign({}, {
             foo: 'bar',
             receivedAt: now,
             error: null,
-            failedAt: null
+            failedAt: null,
         }, result);
 
         assert.deepEqual(
-            receive( currentState, {
+            receive(currentState, {
                 type: RECEIVE,
                 receivedAt: now,
-                result
+                result,
             }),
             expectedState
         );
     });
 });
 
-describe('FailReceive Reducer', function() {
-    it ('Should return the initial state', () => {
-        const response = request( undefined, {} );
-        assert.deepEqual( response, {} );
+describe('FailReceive Reducer', () => {
+    it('Should return the initial state', () => {
+        const response = request(undefined, {});
+        assert.deepEqual(response, {});
     });
 
-    it ('Should handle FAIL_RECEIVE', () => {
+    it('Should handle FAIL_RECEIVE', () => {
         const currentState = {
             foo: 'bar',
-            receivedAt: Date.now()
+            receivedAt: Date.now(),
         };
-        deepFreeze( currentState );
+        deepFreeze(currentState);
 
         const error = {
-            message: 'An ugly error happened'
+            message: 'An ugly error happened',
         };
-        deepFreeze( error );
+        deepFreeze(error);
 
         const now = Date.now();
         const expectedState = {
             foo: 'bar',
             receivedAt: null,
             error,
-            failedAt: now
+            failedAt: now,
         };
 
         assert.deepEqual(
-            failReceive( currentState, {
+            failReceive(currentState, {
                 type: FAIL_RECEIVE,
                 failedAt: now,
-                error
+                error,
             }),
             expectedState
         );

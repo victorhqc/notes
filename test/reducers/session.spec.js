@@ -1,168 +1,167 @@
 import { assert } from 'chai';
 import deepFreeze from 'deep-freeze';
-import moment from 'moment';
 
 import {
     REQUEST,
     RECEIVE,
     FAIL_RECEIVE,
-    ACCESS,
-    REMOVE_ACCESS
 } from '../../src/actions';
 
 import {
     request,
     receive,
-    failReceive
+    failReceive,
 } from '../../src/reducers/request';
 
 import {
     authorized,
-    session
+    session,
 } from '../../src/reducers/session';
 
-describe('Authorized Reducer', function() {
-    it ('Should return the initial state', () => {
-        const response = authorized( undefined, {} );
-        assert.isTrue( response );
+/* global it, describe */
+
+describe('Authorized Reducer', () => {
+    it('Should return the initial state', () => {
+        const response = authorized(undefined, {});
+        assert.isTrue(response);
     });
 
-    it ('Should handle REQUEST', () => {
-        const response = authorized( false, {
-            type: REQUEST
+    it('Should handle REQUEST', () => {
+        const response = authorized(false, {
+            type: REQUEST,
         });
 
-        assert.isTrue( response );
+        assert.isTrue(response);
     });
 
-    it ('Should handle RECEIVE', () => {
-        const response = authorized( false, {
-            type: RECEIVE
+    it('Should handle RECEIVE', () => {
+        const response = authorized(false, {
+            type: RECEIVE,
         });
 
-        assert.isTrue( response );
+        assert.isTrue(response);
     });
 
-    it ('Should handle FAIL_RECEIVE', () => {
-        const responseWithNoError = authorized( false, {
-            type: FAIL_RECEIVE
+    it('Should handle FAIL_RECEIVE', () => {
+        const responseWithNoError = authorized(false, {
+            type: FAIL_RECEIVE,
         });
-        assert.isTrue( responseWithNoError );
+        assert.isTrue(responseWithNoError);
 
-        const responseWithNon401ErrorStatus = authorized( true, {
+        const responseWithNon401ErrorStatus = authorized(true, {
             type: FAIL_RECEIVE,
             error: {
                 response: {
-                    status: 500
-                }
-            }
+                    status: 500,
+                },
+            },
         });
-        assert.isTrue( responseWithNon401ErrorStatus );
+        assert.isTrue(responseWithNon401ErrorStatus);
 
-        const responseWith401ErrorStatus = authorized( true, {
+        const responseWith401ErrorStatus = authorized(true, {
             type: FAIL_RECEIVE,
             error: {
                 response: {
-                    status: 401
-                }
-            }
+                    status: 401,
+                },
+            },
         });
-        assert.isFalse( responseWith401ErrorStatus );
+        assert.isFalse(responseWith401ErrorStatus);
     });
 });
 
-describe('Session Reducer', function() {
-    it ('Should return the initial state', () => {
-        const response = session( undefined, {} );
-        assert.deepEqual( response, {} );
+describe('Session Reducer', () => {
+    it('Should return the initial state', () => {
+        const response = session(undefined, {});
+        assert.deepEqual(response, {});
     });
 
-    it ('Should handle REQUEST', () => {
+    it('Should handle REQUEST', () => {
         const currentState = {};
-        deepFreeze( currentState );
+        deepFreeze(currentState);
 
         const requestedAt = Date.now();
         const expectedState = request({}, {
             type: REQUEST,
-            requestedAt
+            requestedAt,
         });
 
-        const response = session( currentState, {
+        const response = session(currentState, {
             type: REQUEST,
             name: 'session',
-            requestedAt
+            requestedAt,
         });
-        assert.deepEqual( response, expectedState );
+        assert.deepEqual(response, expectedState);
 
-        const responseWithWrongName = session( currentState, {
+        const responseWithWrongName = session(currentState, {
             type: REQUEST,
             name: 'non-session',
-            requestedAt
+            requestedAt,
         });
-        assert.deepEqual( responseWithWrongName, currentState );
+        assert.deepEqual(responseWithWrongName, currentState);
     });
 
-    it ('Should handle RECEIVE', () => {
+    it('Should handle RECEIVE', () => {
         const currentState = {
-            requestedAt: Date.now()
+            requestedAt: Date.now(),
         };
-        deepFreeze( currentState );
+        deepFreeze(currentState);
 
         const result = {
             id: 'some_token',
-            userId: 1
+            userId: 1,
         };
 
         const receivedAt = Date.now();
         const expectedState = receive(currentState, {
             type: RECEIVE,
             receivedAt,
-            result
+            result,
         });
 
-        const response = session( currentState, {
+        const response = session(currentState, {
             type: RECEIVE,
             name: 'session',
             receivedAt,
-            result
+            result,
         });
-        assert.deepEqual( response, expectedState );
+        assert.deepEqual(response, expectedState);
 
-        const responseWithWrongName = session( currentState, {
+        const responseWithWrongName = session(currentState, {
             type: RECEIVE,
             name: 'non-session',
             receivedAt,
-            result
+            result,
         });
-        assert.deepEqual( responseWithWrongName, currentState );
+        assert.deepEqual(responseWithWrongName, currentState);
     });
 
-    it ('Should handle FAIL_RECEIVE', () => {
+    it('Should handle FAIL_RECEIVE', () => {
         const currentState = {};
-        deepFreeze( currentState );
+        deepFreeze(currentState);
 
         const failedAt = Date.now();
         const error = { message: 'some error' };
         const expectedState = failReceive({}, {
             type: FAIL_RECEIVE,
             failedAt,
-            error
+            error,
         });
 
-        const response = session( currentState, {
+        const response = session(currentState, {
             type: FAIL_RECEIVE,
             name: 'session',
             failedAt,
-            error
+            error,
         });
-        assert.deepEqual( response, expectedState );
+        assert.deepEqual(response, expectedState);
 
-        const responseWithWrongName = session( currentState, {
+        const responseWithWrongName = session(currentState, {
             type: FAIL_RECEIVE,
             name: 'non-session',
             failedAt,
-            error
+            error,
         });
-        assert.deepEqual( responseWithWrongName, currentState );
+        assert.deepEqual(responseWithWrongName, currentState);
     });
 });
