@@ -1,12 +1,9 @@
-var path = require('path');
-var webpack = require('webpack');
-
 module.exports = {
     entry: './src/index.js',
     output: {
         path: './dist',
         filename: 'bundle.js',
-        publicPath: '/'
+        publicPath: '/',
     },
     devServer: {
         inline: true,
@@ -14,22 +11,22 @@ module.exports = {
         contentBase: './src',
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
     },
     module: {
         loaders: [
             {
                 test: /\.css$/,
-                loader: 'style!css'
+                loader: 'style!css',
             },
             {
                 test: /\.scss/,
-                loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
+                loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded',
             },
             {
                 test: /\.(png|jpg|gif|woff|woff2|eot|svg|ttf)/,
-                loader: 'url-loader?limit=8192'
-            }
-        ]
-    }
+                loader: 'url-loader?limit=8192',
+            },
+        ],
+    },
 };

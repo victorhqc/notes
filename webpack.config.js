@@ -1,7 +1,7 @@
-'use strict';
+const path = require('path');
 
-var path = require('path');
-var args = require('minimist')(process.argv.slice(2));
+const local = require(path.join(__dirname, 'webpack/local'));
+const production = require(path.join(__dirname, 'webpack/production'));
 
 // List of allowed environments
 const allowedEnvs = ['local', 'production'];
@@ -10,29 +10,29 @@ const allowedEnvs = ['local', 'production'];
 const env = process.env.NODE_ENV || 'local';
 
 // Get available configurations
-var configs = {
-  local: require(path.join(__dirname, 'webpack/local')),
-  production: require(path.join(__dirname, 'webpack/production'))
+const configs = {
+    local,
+    production,
 };
 
 /**
- * Get an allowed environment
- * @param  {String}  env
- * @return {String}
- */
-function getValidEnv(env) {
-  var isValid = env && env.length > 0 && allowedEnvs.indexOf(env) !== -1;
-  return isValid ? env : 'local';
+* Get an allowed environment
+* @param  {String}  env
+* @return {String}
+*/
+function getValidEnv(environment) {
+    const isValid = environment && environment.length > 0 && allowedEnvs.indexOf(environment) !== -1;
+    return isValid ? environment : 'local';
 }
 
 /**
- * Build the webpack configuration
- * @param  {String} env Environment to use
- * @return {Object} Webpack config
- */
-function buildConfig(env) {
-  var usedEnv = getValidEnv(env);
-  return configs[usedEnv];
+* Build the webpack configuration
+* @param  {String} env Environment to use
+* @return {Object} Webpack config
+*/
+function buildConfig(environment) {
+    const usedEnv = getValidEnv(environment);
+    return configs[usedEnv];
 }
 
 module.exports = buildConfig(env);
