@@ -1,33 +1,30 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { openCreateNote, closeCreateNote, createNote } from '../../../actions';
 import NewNoteComponent from './NewNoteComponent';
 
-const mapStateToProps = ( state ) => ({
-    userId: state.user.id,
-    tokenId: state.session.id,
+const mapStateToProps = (state) => ({
     creating: state.newNote.creating,
     title: state.newNote.title,
     text: state.newNote.text,
-    color: state.newNote.color
+    color: state.newNote.color,
 });
 
-const mapDispatchToProps = ( dispatch ) => ({
-    openCreate( creating ) {
-        if( creating ) { return; }
+const mapDispatchToProps = (dispatch) => ({
+    openCreate(creating) {
+        if (creating) { return; }
 
-        dispatch( openCreateNote() );
+        dispatch(openCreateNote());
     },
-    closeCreate( creating ) {
-        if( !creating ) { return; }
-        dispatch( closeCreateNote() );
+    closeCreate(creating) {
+        if (!creating) { return; }
+        dispatch(closeCreateNote());
     },
-    addNote( userId, tokenId, note ) {
+    addNote(note) {
         dispatch(
-           createNote(userId, tokenId, note)
+           createNote(note)
         );
-    }
+    },
 });
 
 const NewNoteContainer = connect(

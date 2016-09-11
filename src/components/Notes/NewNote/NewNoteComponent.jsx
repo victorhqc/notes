@@ -8,13 +8,12 @@ export default class NewNoteComponent extends Component {
         super(props);
 
         this.handleEscPress = this.handleEscPress.bind(this);
-        //this.handleClick = this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleEscPress({ keyCode }) {
-
         // Esc Key
-        if ( keyCode === 27) {
+        if (keyCode === 27) {
             const { closeCreate, creating } = this.props;
 
             closeCreate(creating);
@@ -23,23 +22,21 @@ export default class NewNoteComponent extends Component {
 
     handleClick({ title, text }) {
         const {
-            userId,
-            tokenId,
             closeCreate,
             addNote,
             creating,
-            color
+            color,
         } = this.props;
 
         // Save the note
-        addNote(userId, tokenId, {
+        addNote({
             title,
             text,
-            color
+            color,
         });
 
         // Close the editor
-        closeCreate( creating );
+        closeCreate(creating);
     }
 
     render() {
@@ -53,25 +50,27 @@ export default class NewNoteComponent extends Component {
             display: 'inline-block',
             padding: creating ? '15px 15px 50px 15px' : 15,
             position: 'relative',
-            backgroundColor: !creating ? '#fff' : color
+            backgroundColor: !creating ? '#fff' : color,
         };
 
         const columnStyle = {
-            marginLeft: '17.33%'
+            marginLeft: '17.33%',
         };
 
         return (
             <div className="container">
                 <div className="row">
-                    <div style={ columnStyle } className="eight columns">
+                    <div style={columnStyle} className="eight columns">
                         <Paper
-                            onKeyDown={ this.handleEscPress }
-                            style={ style }
-                            zDepth={ 1 }
-                            onTouchTap={() => openCreate( creating ) }>
+                          onKeyDown={this.handleEscPress}
+                          style={style}
+                          zDepth={1}
+                          onTouchTap={() => openCreate(creating)}
+                        >
                             <EditNoteComponent
-                                handleClick={ this.handleClick.bind(this) }
-                                { ...this.props } />
+                              handleClick={this.handleClick}
+                              {...this.props}
+                            />
                         </Paper>
                     </div>
                 </div>
