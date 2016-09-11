@@ -28,15 +28,19 @@ export default class NewNoteComponent extends Component {
             color,
         } = this.props;
 
+        // Close the editor
+        closeCreate(creating);
+
+        if (!title && !text) {
+            return;
+        }
+
         // Save the note
         addNote({
             title,
             text,
             color,
         });
-
-        // Close the editor
-        closeCreate(creating);
     }
 
     render() {
