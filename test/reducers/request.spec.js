@@ -62,6 +62,7 @@ describe('Request Reducer', () => {
             requestedAt: now,
             error: null,
             failedAt: null,
+            isFetching: true,
         };
 
         assert.deepEqual(
@@ -98,6 +99,7 @@ describe('Receive Reducer', () => {
             receivedAt: now,
             error: null,
             failedAt: null,
+            isFetching: false,
         }, result);
 
         assert.deepEqual(
@@ -135,6 +137,7 @@ describe('FailReceive Reducer', () => {
             receivedAt: null,
             error,
             failedAt: now,
+            isFetching: false,
         };
 
         assert.deepEqual(
