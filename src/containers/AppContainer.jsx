@@ -1,14 +1,12 @@
-import React    from 'react';
+import React from 'react';
 import { push } from 'react-router-redux';
 
 import NewNoteContainer from '../components/Notes/NewNote/NewNoteContainer';
-import NotesContainer   from '../components/Notes/NotesContainer';
-import MenuContainer    from '../components/Menu/MenuContainer';
+import NotesContainer from '../components/Notes/NotesContainer';
+import MenuContainer from '../components/Menu/MenuContainer';
 
 import {
-    setAccess,
-    receive,
-    fetchUserIfNeeded
+    fetchUserIfNeeded,
 } from '../actions';
 
 export default class AppContainer extends React.Component {
@@ -24,21 +22,18 @@ export default class AppContainer extends React.Component {
         this.getUser(state, store);
     }
 
-    verifyAccess(state, store) {
-        if(
-            ! state.session.hasOwnProperty('id') ||
-            ! state.authorized
-        ) {
-            this.unsuscribe();
-            store.dispatch(push('/login'));
-        }
+    componentWillUpdate() {
+        const { store } = this.context;
+        const state = store.getState();
+
+        this.verifyAccess(state, store);
+        this.getUser(state, store);
     }
 
     getUser(state, store) {
-
-        if(
-            state.session.hasOwnProperty('id') &&
-            !state.user.hasOwnProperty('id')
+        if (
+            state.session.id &&
+            !state.user.id
         ) {
             store.dispatch(
                 fetchUserIfNeeded()
@@ -46,12 +41,14 @@ export default class AppContainer extends React.Component {
         }
     }
 
-    componentWillUpdate() {
-        const { store } = this.context;
-        const state = store.getState();
-
-        this.verifyAccess(state, store);
-        this.getUser(state, store);
+    verifyAccess(state, store) {
+        if (
+            !state.session.id ||
+            !state.authorized
+        ) {
+            this.unsuscribe();
+            store.dispatch(push('/login'));
+        }
     }
 
     componentWillUnMount() {
@@ -70,5 +67,5 @@ export default class AppContainer extends React.Component {
 }
 
 AppContainer.contextTypes = {
-    store: React.PropTypes.object
+    store: React.PropTypes.object,
 };

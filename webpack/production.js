@@ -7,7 +7,7 @@ const baseConfig = require('./base');
 const apiPath = path.join(__dirname, '/../api');
 
 const config = _.merge({
-    entry: './src/index.js',
+    entry: './src/index.jsx',
     cache: false,
     plugins: [
         new webpack.optimize.DedupePlugin(),

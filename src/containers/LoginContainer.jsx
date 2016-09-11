@@ -3,10 +3,8 @@ import { push } from 'react-router-redux';
 // import { connect } from 'react-redux';
 
 import {
-    ACCESS,
     fetchAccessIfNeeded,
-    receive,
-    removeAccess
+    removeAccess,
 } from '../actions';
 
 import Login from '../components/session/Login';
@@ -21,25 +19,27 @@ export default class LoginContainer extends Component {
         this.goToRoot(store);
     }
 
-    goToRoot(store) {
-        const { session, authorized } = store.getState();
-
-        if(
-            !authorized &&
-            session.hasOwnProperty('id')
-        ) {
-            return store.dispatch( removeAccess() );
-        }
-
-        if( session.hasOwnProperty('id') ) {
-            this.unsuscribe();
-            return store.dispatch( push('/') );
-        }
-    }
-
     componentDidUpdate() {
         const { store } = this.context;
         this.goToRoot(store);
+    }
+
+    goToRoot({ dispatch, getState }) {
+        const { session, authorized } = getState();
+
+        if (
+            !authorized &&
+            session.id
+        ) {
+            return dispatch(removeAccess());
+        }
+
+        if (session.id) {
+            this.unsuscribe();
+            return dispatch(push('/'));
+        }
+
+        return null;
     }
 
     render() {
@@ -47,13 +47,13 @@ export default class LoginContainer extends Component {
 
         return (
             <Login
-                onRequestLogin= {( username, password ) => {
-                    store.dispatch( fetchAccessIfNeeded( username, password ) );
-                }}
+              onRequestLogin={(username, password) => {
+                  store.dispatch(fetchAccessIfNeeded(username, password));
+              }}
             />
         );
     }
 }
 LoginContainer.contextTypes = {
-    store: React.PropTypes.object
-}
+    store: React.PropTypes.object,
+};
