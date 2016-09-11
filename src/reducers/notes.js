@@ -68,7 +68,7 @@ export function newNote(state = {
     }
 }
 
-function allNotes(state = [], action = {}) {
+export function allNotes(state = [], action = {}) {
     switch (action.type) {
     case ADD_NOTE:
         return [
@@ -102,7 +102,9 @@ export function notes(state = {
     case FAIL_RECEIVE:
         return failReceive(state, action);
     case REMOVE_ACCESS:
-        return [];
+        return {
+            notes: [],
+        };
     default:
         return state;
     }

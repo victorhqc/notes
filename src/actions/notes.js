@@ -3,59 +3,40 @@ import fetch from 'isomorphic-fetch';
 import {
     jsonHeaders,
     checkStatus,
-    parseJSON
+    parseJSON,
 } from '../helpers/fetch';
 
 import {
-    REQUEST,
-    RECEIVE,
-    FAIL_RECEIVE,
     request,
     receive,
     failReceive,
-    shouldFetch
+    shouldFetch,
 } from './requests';
 
 import {
-    PEOPLE_URL
+    PEOPLE_URL,
 } from './people';
 
 export const NOTES = 'NOTES';
 
 function getUri(userId) {
-    return PEOPLE_URL + userId + '/notes/';
-}
-
-export function fetchNotesIfNeeded() {
-
-    return ( dispatch, getState ) => {
-        const { notes, session } = getState();
-
-        if( shouldFetch( notes ) ) {
-            return dispatch(
-                fetchNotes( session.userId, session.id )
-            );
-        }else {
-            return Promise.resolve();
-        }
-    };
+    return `${PEOPLE_URL}${userId}/notes/`;
 }
 
 export function fetchNotes() {
-
-    return function( dispatch, getState ) {
+    return (dispatch, getState) => {
         const { user, session } = getState();
 
         dispatch(request('notes'));
 
-        let filter = {
-            order: 'createdAt DESC'
+        const filter = {
+            order: 'createdAt DESC',
         };
-        let params = '?filter=' + encodeURIComponent(JSON.stringify( filter ) );
+        const params = `?filter=${encodeURIComponent(JSON.stringify(filter))}`;
 
-        return fetch( getUri( user.id ) + params, {
+        return fetch(getUri(user.id) + params, {
             method: 'GET',
-            headers: jsonHeaders( session.id )
+            headers: jsonHeaders(session.id),
         })
         .then(checkStatus)
         .then(parseJSON)
@@ -66,11 +47,25 @@ export function fetchNotes() {
     };
 }
 
+export function fetchNotesIfNeeded() {
+    return (dispatch, getState) => {
+        const { notes, session } = getState();
+
+        if (shouldFetch(notes)) {
+            return dispatch(
+                fetchNotes(session.userId, session.id)
+            );
+        }
+
+        return Promise.resolve();
+    };
+}
+
 export const OPEN_CREATE_NOTE = 'OPEN_CREATE_NOTE';
 
 export function openCreateNote() {
     return {
-        type: OPEN_CREATE_NOTE
+        type: OPEN_CREATE_NOTE,
     };
 }
 
@@ -78,7 +73,7 @@ export const CLOSE_CREATE_NOTE = 'CLOSE_CREATE_NOTE';
 
 export function closeCreateNote() {
     return {
-        type: CLOSE_CREATE_NOTE
+        type: CLOSE_CREATE_NOTE,
     };
 }
 
