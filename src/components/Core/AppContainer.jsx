@@ -1,13 +1,12 @@
 import React from 'react';
 import { push } from 'react-router-redux';
 
-import NewNoteContainer from '../components/Notes/NewNote/NewNoteContainer';
-import NotesContainer from '../components/Notes/NotesContainer';
-import MenuContainer from '../components/Menu/MenuContainer';
+import NewNoteContainer from '../Notes/NewNote/NewNoteContainer';
+import NotesContainer from '../Notes/NotesContainer';
 
 import {
     fetchUserIfNeeded,
-} from '../actions';
+} from '../../actions';
 
 export default class AppContainer extends React.Component {
     componentDidMount() {
@@ -58,7 +57,6 @@ export default class AppContainer extends React.Component {
     render() {
         return (
             <div>
-                <MenuContainer />
                 <NewNoteContainer />
                 <NotesContainer />
             </div>

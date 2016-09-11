@@ -15,9 +15,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import configureStore from './store/configureStore';
 
-import Root from './containers/Root';
-import LoginContainer from './containers/LoginContainer';
-import AppContainer from './containers/AppContainer';
+import Root from './components/Root/RootComponent';
+import LoginContainer from './components/Login/LoginContainer';
+import AppContainer from './components/Core/AppContainer';
 
 import { loadState, saveState } from './helpers/localStorage';
 
@@ -46,8 +46,8 @@ render(
             <Router history={history}>
                 <Route path="/" component={Root}>
                     <IndexRoute component={AppContainer} />
-                    <Route path="login" component={LoginContainer} />
                 </Route>
+                <Route path="login" component={LoginContainer} />
             </Router>
         </Provider>
     </MuiThemeProvider>,

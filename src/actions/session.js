@@ -1,50 +1,44 @@
 import fetch from 'isomorphic-fetch';
+import { push } from 'react-router-redux';
 
 import {
     jsonHeaders,
     checkStatus,
-    parseJSON
+    parseJSON,
 } from '../helpers/fetch';
 
 import {
-    REQUEST,
-    RECEIVE,
-    FAIL_RECEIVE,
     request,
     receive,
     failReceive,
-    shouldFetch
+    shouldFetch,
 } from './requests';
 
 import {
-    PEOPLE_URL
+    PEOPLE_URL,
 } from './people';
-
-import { url } from 'api';
 
 export const REMOVE_ACCESS = 'REMOVE_ACCESS';
 
 export function removeAccess() {
     return {
-        type: REMOVE_ACCESS
+        type: REMOVE_ACCESS,
     };
 }
 
-export function fetchAccess( email, password ) {
-
-    return function(dispatch) {
-
+export function fetchAccess(email, password) {
+    return (dispatch) => {
         // Start Login Process
         dispatch(request('session'));
 
         // Actual login attempt
-        return fetch( PEOPLE_URL + 'login', {
+        return fetch(`${PEOPLE_URL}login`, {
             method: 'POST',
             headers: jsonHeaders(),
             body: JSON.stringify({
                 email,
-                password
-            })
+                password,
+            }),
         })
         .then(checkStatus)
         .then(parseJSON)
@@ -58,15 +52,25 @@ export function fetchAccess( email, password ) {
 }
 
 export function fetchAccessIfNeeded(username, password) {
-
-    return ( dispatch, getState ) => {
+    return (dispatch, getState) => {
         const { session } = getState();
-        if( shouldFetch( session ) ) {
-
-            return dispatch( fetchAccess( username, password ) );
-
-        }else {
-            return Promise.resolve();
+        if (shouldFetch(session)) {
+            return dispatch(fetchAccess(username, password));
         }
+
+        return Promise.resolve();
+    };
+}
+
+export function checkSession() {
+    return (dispatch, getState) => {
+        const { session, authorized } = getState();
+
+        if (!authorized && session.id) {
+            dispatch(removeAccess());
+            dispatch(push('/login'));
+        }
+
+        return Promise.resolve();
     };
 }

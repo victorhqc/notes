@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import DevTools from '../Core/DevTools';
+import MenuContainer from '../Menu/MenuContainer';
+
 export default class Root extends Component {
 
     render() {
@@ -7,7 +10,9 @@ export default class Root extends Component {
 
         return (
             <div>
+                <MenuContainer />
                 { props.children }
+                <DevTools />
             </div>
         );
     }
