@@ -44,7 +44,7 @@
     "karma-es6-shim": "^1.0.0",
     "karma-eslint": "^2.1.0",
     "karma-mocha": "^1.1.1",
-    "karma-mocha-reporter": "^2.1.0",
+    "karma-mocha-reporter": "^2.2.2",
     "karma-nyan-reporter": "^0.2.4",
     "karma-phantomjs-launcher": "^1.0.1",
     "karma-sinon": "^1.0.5",
