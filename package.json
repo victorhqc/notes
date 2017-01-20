@@ -82,7 +82,7 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1",
-    "roboto-fontface": "^0.6.0",
+    "roboto-fontface": "^0.6.1",
     "roboto-slab-fontface-kit": "^1.0.1",
     "skeleton-css": "^2.0.4",
     "webpack": "^1.13.0"
