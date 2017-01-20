@@ -29,7 +29,7 @@
     "deep-freeze": "0.0.1",
     "deep-freeze-es6": "^1.0.0",
     "deep-freeze-node": "^1.1.2",
-    "eslint": "^3.4.0",
+    "eslint": "^3.14.0",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
