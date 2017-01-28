@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "draft-js": "^0.9.1",
+    "draft-js": "^0.10.0",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.13.1",
     "material-design-icons": "^3.0.1",
