@@ -80,7 +80,7 @@
     "react-router-redux": "^4.0.4",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.5.2",
-    "redux-logger": "^2.6.1",
+    "redux-logger": "^2.8.0",
     "redux-thunk": "^2.0.1",
     "roboto-fontface": "^0.6.0",
     "roboto-slab-fontface-kit": "^1.0.1",
